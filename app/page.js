@@ -1,95 +1,62 @@
+"use client";
 import Image from 'next/image'
-import styles from './page.module.css'
+import { Button, Dialog, Typography, Container, CircularProgress } from '@mui/material'
+import { GoogleAuthProvider, EmailAuthProvider } from 'firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { auth } from '../firebase/firebase'
+import { useAuth } from '../firebase/auth';
+import { useRouter } from 'next/navigation';
+
+const REDIRECT_PAGE = "/roster";
+
+const uiConfig = {
+  signInFlow: 'popup',
+  signInSuccessUrl: REDIRECT_PAGE,
+  signInOptions: [
+    EmailAuthProvider.PROVIDER_ID,
+    GoogleAuthProvider.PROVIDER_ID,
+  ]
+}
 
 export default function Home() {
+  const { authUser, isLoading } = useAuth();
+  const [login, setLogin] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && authUser) {
+      router.push('/roster')
+    }
+  }, [authUser, isLoading]);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    (isLoading || (!isLoading && !!authUser)) 
+    ?
+    <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '50%' }} /> 
+    :
+    <div>
+      <Head>
+        <title>Grading</title>
+      </Head>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <main>
+        <Container>
+          <Typography variant="h1">Welcome to gradebook</Typography>
+          <Typography variant="h2">do some stuff with grades</Typography>
+          <div>
+            <Button variant="contained" color="secondary"
+              onClick={() => setLogin(true)}>
+              Login
+            </Button>
+          </div>
+          <Dialog open={login} onClose={() => setLogin(false)}>
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}></StyledFirebaseAuth>
+          </Dialog>
+        </Container>
+      </main>    
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }
