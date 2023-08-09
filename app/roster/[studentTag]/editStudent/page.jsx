@@ -136,8 +136,8 @@ export default function EditStudent() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <div>
-                            <label htmlFor='studentPicBackup'>lemme see them</label>
-                            <input required type="file" name="studentPicBackup" id="studentPickBackup" onInput={(event) => handleFileInput(event.target)} />
+                            <label htmlFor='studentPicBackup'>change the pic if you want to</label>
+                            <input type="file" name="studentPicBackup" id="studentPickBackup" onInput={(event) => handleFileInput(event.target)} />
                         </div>
                         <div>
                             <label htmlFor="studentFirstName">student first name</label>
@@ -146,6 +146,64 @@ export default function EditStudent() {
                         <div>
                             <label htmlFor='studentLastName'>Stduent last name</label>
                             <input required type='text' name='studentLastName' id='studentLastName' value={studentData.studentLastName} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='gradeLevel'>grade level</label>
+                            <select required name='gradeLevel' id='gradeLevel' value={studentData.gradeLevel} onChange={handleChange}>
+                                <option value='pre-k'>Pre-K</option>
+                                <option value='k'>Kindergarten</option>
+                                <option value='1'>1st Grade</option>
+                                <option value='2'>2nd Grade</option>
+                                <option value='3'>3rd Grade</option>
+                                <option value='4'>4th Grade</option>
+                                <option value='5'>5th Grade</option>
+                                <option value='6'>6th Grade</option>
+                                <option value='7'>7th Grade</option>
+                                <option value='8'>8th Grade</option>
+                                <option value='9'>9th Grade</option>
+                                <option value='10'>10th Grade</option>
+                                <option value='11'>11th Grade</option>
+                                <option value='12'>12th Grade</option>
+                                <option value='college'>College</option>
+                                <option value='postcollege'>Post College</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor='birthday'>student birthday</label>
+                            <input required type='date' name='birthday' id='birthday' value={studentData.birthday} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='pronouns'>pronouns</label>
+                            <input required type='text' name='pronouns' id='pronouns' value={studentData.pronouns} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='academicStanding'>academic standing</label>
+                            <select required name='academicStanding' id='academicStanding' value={studentData.academicStanding} onChange={handleChange}>
+                                <option value=''>select an academic standing</option>
+                                <option value='good'>Good</option>
+                                <option value='mid'>Academic Notice</option>
+                                <option value='bad'>Academic Probation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor='hobbies'>hobbies</label>
+                            <input required type='text' name='hobbies' id='hobbies' value={studentData.hobbies} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='allergies'>allergies</label>
+                            <input required type='text' name='allergies' id='allergies' value={studentData.allergies} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='emergencyContactName'>emergency contact name</label>
+                            <input required type='text' name='emergencyContactName' id='emergencyContactName' value={studentData.emergencyContactName} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='emergencyContactRelationship'>emergency contact relationship</label>
+                            <input required type='text' name='emergencyContactRelationship' id='emergencyContactRelationship' value={studentData.emergencyContactRelationship} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor='emergencyContactPhone'>emergency contact phone</label>
+                            <input required type='tel' name='emergencyContactPhone' id='emergencyContactPhone' value={studentData.emergencyContactPhone} onChange={handleChange} />
                         </div>
                     </div>
                     <button type="submit" value="submit form">update this student already</button>
