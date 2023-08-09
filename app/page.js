@@ -45,6 +45,7 @@ export default function Home() {
         <Container>
           <Typography variant="h1">Welcome to gradebook</Typography>
           <Typography variant="h2">do some stuff with grades</Typography>
+          <Typography variant="h3">or don't, i don't care.</Typography>
           <div>
             <Button variant="contained" color="secondary"
               onClick={() => setLogin(true)}>
