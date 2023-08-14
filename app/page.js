@@ -29,7 +29,7 @@ export default function Home() {
     if (!isLoading && authUser) {
       router.push('/roster')
     }
-  }, [authUser, isLoading]);
+  }, [authUser, isLoading, router]);
 
   return (
     (isLoading || (!isLoading && !!authUser)) 

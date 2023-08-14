@@ -34,7 +34,7 @@ export default function EditStudent() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
     
     //this is going to be the useeffect to grab the student data from firestore
     useEffect(() => {

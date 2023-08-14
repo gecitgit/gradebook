@@ -36,7 +36,7 @@ export default function StudentForm() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
 
     function handleChange(event) {
         setFormData({
@@ -83,7 +83,8 @@ export default function StudentForm() {
         <>
         <NavBar />
 
-        <div> //this holds the whole form
+        <div> 
+            {/* //this holds the whole form */}
             <h1>new student bucko</h1>
             <form onSubmit={handleSubmit}>
                     <fieldset>

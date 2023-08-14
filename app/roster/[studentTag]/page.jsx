@@ -26,7 +26,7 @@ export default function StudentPage() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
 
     useEffect(() => {
         if (shortenedPath && authUser && authUser.uid) {

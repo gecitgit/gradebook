@@ -35,7 +35,7 @@ export default function AssignmentPageUpdate() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
 
     useEffect(() => {
         if (!authUser) return;

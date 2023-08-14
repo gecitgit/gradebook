@@ -18,7 +18,7 @@ export default function Roster() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
 
     useEffect(() => {
         const fetchStudents = async () => {

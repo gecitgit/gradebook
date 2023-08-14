@@ -25,7 +25,7 @@ export default function AssignmentPage() {
         if (!isLoading && !authUser) {
             router.push('/');
         }
-    }, [authUser, isLoading]);
+    }, [authUser, isLoading, router]);
 
     function handleChange(event) {
         const { name, value, type, checked } = event.target;
