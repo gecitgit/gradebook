@@ -18,17 +18,23 @@ export default function StudentRow(props) {
                 <Image 
                     alt="student image"
                     src={student.imageUrl}
-                    width={100}
-                    height={100}
+                    loading="lazy"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '150px', height: 'auto', padding: '5px' }}
                     className="student-row-image"
                 />
             </div>
             <div className="student-row-text-box">
-                { isDuplicated && <p style={{ padding: "10px", margin: "10px", backgroundColor: "pink", fontWeight: "bolder" }}>this student is duped</p>}
-                <h2>{student.studentFirstName} {student.studentLastName} - <span>{student.pronouns}</span></h2>
-                <p>Grade: {student.gradeLevel} <br />
-                Academic Standing: {student.academicStanding} </p>
-            <Link href={`/roster/${props.student.studentSlug}`}>click me for moe student info</Link>
+                { isDuplicated && <p className="dupe-student-box-alert">this student is duplicated</p>}
+                <p id="student-row-name">{student.studentFirstName} {student.studentLastName}</p>
+                <p id="student-row-pronouns">{student.pronouns}</p>
+                <p className="student-row-other">Grade: {student.gradeLevel} </p>
+                <p className="student-row-other">Standing: {student.academicStanding} </p>
+            <Link className="student-row-view-btn" href={`/roster/${props.student.studentSlug}`}>
+                view student
+            </Link>
             </div>
         </div>
     )

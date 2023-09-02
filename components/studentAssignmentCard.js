@@ -8,9 +8,13 @@ export default function StudentAssignmentCard(props) {
     console.log("this is student inside of assignent card: ", student);
     console.log("this is assignments inside of assignment card: ", assignments);
     return (
-        <div style={{ padding: '10px', border: '1px solid black', margin: '10px'}}>
-            <h2>assignments are gonna go here</h2>
-            <Link href={`/roster/${student.studentSlug}/assignmentForm`}>Add an assignment</Link>
+        <div className="assignment-card-main">
+            <Link href={`/roster/${student.studentSlug}/assignmentForm`} id="add-assignment-btn">+ Add new assignment</Link>
+            { assignments.length === 0 ? 
+                <div id="no-assignment-div">
+                    <p>{student.studentFirstName} has no assignments yet.</p>
+                </div>
+          : null}
             { assignments.map((assignment) => {
                 return (
                     <StudentAssignmentRow key={assignment.id} assignmentInfo={assignment} />

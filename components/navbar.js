@@ -6,14 +6,17 @@ import Link from "next/link";
 export default function NavBar() {
     const { authUser, signOut } = useAuth();
 
+    console.log("this is the authUser that shows in navBBar: ", authUser)
+    let greeting = "Hello, " + authUser?.email.split("@")[0] + "!";
+
     return (
         <div className="navbar-box">
             <div className="navbar-left">
                 <Link href="/">Home</Link>
             </div>
             <div className="navbar-right">
-                <p>{authUser?.email}</p>
-                <button onClick={signOut}>logout</button>
+                <p>{greeting || "yerr"}</p>
+                <button id="navbarLogoutBtn" onClick={signOut}>LOGOUT</button>
             </div>
         </div>
     )

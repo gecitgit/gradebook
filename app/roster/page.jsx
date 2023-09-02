@@ -7,6 +7,7 @@ import { CircularProgress } from '@mui/material';
 import Link from 'next/link';
 import { getStudents } from '../../firebase/firestore';
 import StudentRow from '@/components/studentRow';
+import { toast } from 'react-toastify';
 
 export default function Roster() {
     const { authUser, isLoading } = useAuth();
@@ -46,27 +47,32 @@ export default function Roster() {
     }, [authUser]);
 
     return (
-        (!authUser) ? <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%'}} />
+        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"50%", marginTop: "25%" }} />
         :
-        <>
+
+        <div className='roster-big-div'>
             <NavBar />
-            <div>
-                <h1>Dashboard</h1>
-                <span>
-                    <p>add a new student</p>
-                    <Link href="/student-form">+ Add student</Link>
-                </span>
-                { duplicatedSlugs.size > 0 && <div style={{ padding: "10px", margin: "10px", backgroundColor: "orange", fontWeight: "bolder" }}>You ahve duplicate students</div>}
+            <div id="roster-main-page">
+                <h2>Current Roster</h2>
+                <Link href="/student-form" id="add-student-btn">+ Add student</Link>
+                { duplicatedSlugs.size > 0 && <div id="dupe-div"><p id="dupe-student-warning">
+                    You have duplicate students!</p><p id="dupe-student-expl">Two or more students have the exact same name and birthday, which indicates a possible double entry. If this is an error, please delete the duplicated student. If these are indeed two separate students then consider adding an identifer to one of them to ensure their files are kept separate.</p></div>}
             </div>
-            <div>
-                { students.map((student) => {
-                    return (
-                        <div key={student.id}>
-                            <StudentRow student={student} isDuplicated={duplicatedSlugs.has(student.studentSlug)} />
-                        </div>
-                    )
-                })}
-            </div>
-        </>
+            {students.length === 0 ?
+                <div id="no-student-div">
+                    <p>You don't have any students yet! Click the button above to add your first student to your roster.</p>
+                </div>
+            :
+                <div id="student-row-holder">
+                    { students.map((student) => {
+                        return (
+                            <div key={student.id}>
+                                <StudentRow student={student} isDuplicated={duplicatedSlugs.has(student.studentSlug)} />
+                            </div>
+                        )
+                    })}
+                </div>
+            }
+        </div>
     )
 }

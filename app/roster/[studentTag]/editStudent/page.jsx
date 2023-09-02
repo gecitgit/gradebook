@@ -19,29 +19,29 @@ export default function EditStudent() {
     const studentSlug = pathname.split("/")[2];
     console.log("this is the student slug inside of editstudent: ", studentSlug);
     // console.log("this is teh uid: ", authUser.uid);
-    
+
     const [error, setError] = useState(false);
     const [isFetching, setIsFetching] = useState(true);
-    
+
     const [studentData, setStudentData] = useState({});
 
     const [fileData, setFileData] = useState({
         fileName: DEFAULT_FILE_NAME,
         file: null
     });
-    
+
     useEffect(() => {
         if (!isLoading && !authUser) {
             router.push('/');
         }
     }, [authUser, isLoading, router]);
-    
+
     //this is going to be the useeffect to grab the student data from firestore
     useEffect(() => {
         if (!authUser) return;
-        
+
         const userUID = authUser.uid;
-        
+
         const fetchStudentInfo = async () => {
             try {
                 const student = await getStudentInfo(userUID, studentSlug);
@@ -57,7 +57,7 @@ export default function EditStudent() {
     }, [authUser, studentSlug]);
 
     if (isFetching) {
-        return <CircularProgress />
+        return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>
     }
 
     if (error) {
@@ -82,6 +82,7 @@ export default function EditStudent() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        let oldSlug = studentSlug;
 
         const firstNameSlug = slugify(studentData.studentFirstName, {
             lower: true,
@@ -111,9 +112,11 @@ export default function EditStudent() {
             updatedData.imageUrl = newImageUrl;
         }
 
-        try { 
-            await updateStudentInfo(studentUID, updatedData);
+        try {
+            await updateStudentInfo(studentUID, updatedData, oldSlug);
             console.log("student info updated successfully!");
+            console.log("this is what the updated data looked like: ", updatedData);
+            console.log("this is oldslug being submitted in the update form: ", oldSlug);
             router.push(`/roster/${updatedStudentSlug}`);
         } catch (error) {
             console.error("error updating student info: ", error);
@@ -123,92 +126,138 @@ export default function EditStudent() {
     return (
         <>
             <NavBar />
-            <h1>edit the student meng</h1>
             <div>
-                <p>this is the student info form here:</p>
-                <p>student first name: <strong>{studentData.studentFirstName}</strong></p>
+
+                <form onSubmit={handleSubmit} className='FORM-body'>
+                    <fieldset className='FORM-fieldset'>
+                        <legend>EDIT your student</legend>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='studentPicBackup'>Student Photo</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input type="file" name="studentPicBackup" id="studentPickBackup" onInput={(event) => handleFileInput(event.target)} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor="studentFirstName">First Name</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='studentFirstName' id='studentFirstName' value={studentData.studentFirstName} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='studentLastName'>Last Name</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='studentLastName' id='studentLastName' value={studentData.studentLastName} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='gradeLevel'>Grade Level</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <select required name='gradeLevel' id='gradeLevel' value={studentData.gradeLevel} onChange={handleChange}>
+                                    <option value="Pre-K">Pre-K</option>
+                                    <option value="Kindergarten">Kindergarten</option>
+                                    <option value="1st grade">1st grade</option>
+                                    <option value="2nd grade">2nd grade</option>
+                                    <option value="3rd grade">3rd grade</option>
+                                    <option value="4th grade">4th grade</option>
+                                    <option value="5th grade">5th grade</option>
+                                    <option value="6th grade">6th grade</option>
+                                    <option value="7th grade">7th grade</option>
+                                    <option value="8th grade">8th grade</option>
+                                    <option value="9th grade">9th grade</option>
+                                    <option value="10th grade">10th grade</option>
+                                    <option value="11th grade">11th grade</option>
+                                    <option value='12th grade'>12th grade</option>
+                                    <option value="College">College</option>
+                                    <option value="Post-College">Post College</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='birthday'>Birthday</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='date' name='birthday' id='birthday' value={studentData.birthday} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='pronouns'>Pronouns</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='pronouns' id='pronouns' value={studentData.pronouns} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='academicStanding'>Academic Standing</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <select required name='academicStanding' id='academicStanding' value={studentData.academicStanding} onChange={handleChange}>
+                                    <option value=''>select an academic standing</option>
+                                    <option value='Good'>Good</option>
+                                    <option value='Warning'>Warning</option>
+                                    <option value='Probation'>Probation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='hobbies'>Hobbies</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='hobbies' id='hobbies' value={studentData.hobbies} onChange={handleChange} />
+                            </div>
+                        </div>
+
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+
+                                <label htmlFor='allergies'>Allergies</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='allergies' id='allergies' value={studentData.allergies} onChange={handleChange} />
+                            </div>
+                        </div>
+                        </fieldset>
+                        <fieldset className='FORM-fieldset'>
+                            <legend>Emergency Contact Information</legend>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='emergencyContactName'>Name</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='emergencyContactName' id='emergencyContactName' value={studentData.emergencyContactName} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='emergencyContactRelationship'>Relationship</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='emergencyContactRelationship' id='emergencyContactRelationship' value={studentData.emergencyContactRelationship} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='emergencyContactPhone'>Phone</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='tel' name='emergencyContactPhone' id='emergencyContactPhone' value={studentData.emergencyContactPhone} onChange={handleChange} />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button type="submit" value="submit form" id="FORM-submit-btn">UPDATE</button>
+                </form>
             </div>
-            <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <legend>edit your stinky ass student</legend>
-                    <div>
-                        <p>this is going to be the picture stuff I don't want to do it right now</p>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <div>
-                            <label htmlFor='studentPicBackup'>change the pic if you want to</label>
-                            <input type="file" name="studentPicBackup" id="studentPickBackup" onInput={(event) => handleFileInput(event.target)} />
-                        </div>
-                        <div>
-                            <label htmlFor="studentFirstName">student first name</label>
-                            <input required type='text' name='studentFirstName' id='studentFirstName' value={studentData.studentFirstName} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='studentLastName'>Stduent last name</label>
-                            <input required type='text' name='studentLastName' id='studentLastName' value={studentData.studentLastName} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='gradeLevel'>grade level</label>
-                            <select required name='gradeLevel' id='gradeLevel' value={studentData.gradeLevel} onChange={handleChange}>
-                                <option value='pre-k'>Pre-K</option>
-                                <option value='k'>Kindergarten</option>
-                                <option value='1'>1st Grade</option>
-                                <option value='2'>2nd Grade</option>
-                                <option value='3'>3rd Grade</option>
-                                <option value='4'>4th Grade</option>
-                                <option value='5'>5th Grade</option>
-                                <option value='6'>6th Grade</option>
-                                <option value='7'>7th Grade</option>
-                                <option value='8'>8th Grade</option>
-                                <option value='9'>9th Grade</option>
-                                <option value='10'>10th Grade</option>
-                                <option value='11'>11th Grade</option>
-                                <option value='12'>12th Grade</option>
-                                <option value='college'>College</option>
-                                <option value='postcollege'>Post College</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor='birthday'>student birthday</label>
-                            <input required type='date' name='birthday' id='birthday' value={studentData.birthday} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='pronouns'>pronouns</label>
-                            <input required type='text' name='pronouns' id='pronouns' value={studentData.pronouns} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='academicStanding'>academic standing</label>
-                            <select required name='academicStanding' id='academicStanding' value={studentData.academicStanding} onChange={handleChange}>
-                                <option value=''>select an academic standing</option>
-                                <option value='good'>Good</option>
-                                <option value='mid'>Academic Notice</option>
-                                <option value='bad'>Academic Probation</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor='hobbies'>hobbies</label>
-                            <input required type='text' name='hobbies' id='hobbies' value={studentData.hobbies} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='allergies'>allergies</label>
-                            <input required type='text' name='allergies' id='allergies' value={studentData.allergies} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='emergencyContactName'>emergency contact name</label>
-                            <input required type='text' name='emergencyContactName' id='emergencyContactName' value={studentData.emergencyContactName} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='emergencyContactRelationship'>emergency contact relationship</label>
-                            <input required type='text' name='emergencyContactRelationship' id='emergencyContactRelationship' value={studentData.emergencyContactRelationship} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor='emergencyContactPhone'>emergency contact phone</label>
-                            <input required type='tel' name='emergencyContactPhone' id='emergencyContactPhone' value={studentData.emergencyContactPhone} onChange={handleChange} />
-                        </div>
-                    </div>
-                    <button type="submit" value="submit form">update this student already</button>
-                </fieldset>
-            </form>
         </>
     )
 }

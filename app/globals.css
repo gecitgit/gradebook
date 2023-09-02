@@ -1,26 +1,79 @@
 body {
-  background-color: lightblue;
+  background-color: #d8b4e2;
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
+}
+
+/* #login-page{
+  background-image: url('/public/pexels-cottonbro-studio-4769464.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+} */
+
+#login-page-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffb4;
+  width: clamp(350px, 80vw, 600px);
+  text-align: center;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: bolder;
 }
 
 /* -------------------------- */
 /* BEGIN STYLING FOR 'NavBar' */
 .navbar-box{
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
   width: 100vw;
-  border-bottom: 4px solid black;
-  background-color: lightgreen;
+  background-color: #210b2c;
+  color: #fff;
+  font-weight: bolder;
+  box-shadow: 0px 2px 12px 2px #55286F;
 }
 
 .navbar-left {
-  background-color: lightpink;
+  margin-left: 10px;
+}
+.navbar-left a{
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+  margin: 5px;
+}
+.navbar-left a:hover{
+  color: #ccc;
+  text-decoration: underline;
 }
 
 .navbar-right {
-  background-color: lightskyblue;
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-right: 10px;
+}
+
+#navbarLogoutBtn {
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  background-color: #55286F;
+  color: #fff;
+  font-weight: bold;
+  margin-left: 5px;
+  font-size: 0.6rem;
+  border: none;
+}
+#navbarLogoutBtn:hover {
+  background-color: #ccc;
+  color: #210b2c;
+  cursor: pointer;
 }
 
 /* END STYLING FOR 'NavBar' */
@@ -36,6 +89,87 @@ body {
 /* ----------------------------- */
 
 
+/* ------------------------------ */
+/* BEGIN STYLING FOR 'Roster page' */
+#roster-main-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#roster-main-page h2{
+  margin-bottom: 10px;
+  font-weight: bolder;
+}
+#dupe-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(350px, 80vw, 600px);
+}
+#dupe-student-warning{
+  background-color: #ae759f;
+  padding: 10px;
+  margin: 2px;
+  border-radius: 8px;
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+#dupe-student-expl{
+  background-color: orange;
+  padding: 10px;
+  margin: 2px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+#add-student-btn{
+  border-radius: 5px;
+  border: 2px solid #210b2c;
+  color: #210b2c;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+#add-student-btn:hover{
+  background-color: #210b2c;
+  color: #fff;
+  cursor: pointer;
+}
+/* END STYLING FOR 'Roster page' */
+/* ------------------------------ */
+
+
+
+/* ----------------------------------------------- */
+/* BEGIN STYLING FOR 'student list on roster page' */
+.roster-big-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#student-row-holder{
+  padding: 5px;
+  width: clamp(375px, 80vw, 600px);
+}
+#no-student-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(350px, 80vw, 600px);
+  background-color: #ae759f;
+  margin-top: 10px;
+}
+#no-student-div p{
+  font-weight: bolder;
+  font-size: 1.1rem;
+  margin: 10px;
+  padding: 10px 20px 10px 20px;
+  text-align: center;
+}
+/* END STYLING FOR 'student list on roster page' */
+/* ----------------------------------------------- */
+
 
 
 /* ------------------------------ */
@@ -43,18 +177,411 @@ body {
 .student-row-box {
   display: flex;
   padding: 5px;
-  border: 2px solid darkblue;
+  border: 2px solid #210b2c;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  /* width: clamp(300px, 80vw, 600px); */
 }
 
 .student-row-picture-box{
-  background-color: lightcoral;
+  background-color: #ae759f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 }
+
+.student-row-image {
+  border-radius: 8px;
+}
+
+.student-row-text-box{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#student-row-name{
+  font-size: 1.4rem;
+  font-weight: bolder;
+  margin: 0px;
+  text-align: center;
+}
+
+#student-row-pronouns{
+  font-size: 1.1rem;
+  color:#210b2c;
+  font-weight: bold;
+  margin: 0px;
+  padding-top: 2px;
+  padding-bottom: 8px;
+}
+.student-row-other {
+  font-size: 1rem;
+  margin: 0px;
+}
+
+.student-row-view-btn {
+  margin-top: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bolder;
+  border: 2px solid #210b2c;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  background-color: #55286F;
+}
+.student-row-view-btn:hover {
+  background-color: #210b2c;
+  color: #fff;
+  cursor: pointer;
+}
+
+.dupe-student-box-alert {
+  background-color: orange;
+  padding: 5px 10px 5px 10px;
+  margin: 5px;
+  font-weight: bolder;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+
 
 /* END STYLING FOR 'studentRow' */
 /* ---------------------------- */
 
-.student-row-image {
-  border: 4px black solid;
-  height: 100px;
-  /* max-width: 100px; */
+
+
+
+
+
+
+
+
+/* ------------------------------------------------ */
+/* BEGIN STYLING FOR 'STUDENT AND ASSIGNMENT FORMS' */
+.FORM-body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #d8b4e2;
+  padding-bottom: 20px;
 }
+
+.FORM-fieldset{
+  margin-top: 10px;
+  font-weight: bolder;
+  padding: 0px;
+  width: clamp(350px, 80vw, 600px);
+}
+.FORM-fieldset legend{
+  font-size: 1.1rem;
+  font-weight: bolder;
+}
+
+.FORM-div{
+  display: flex;
+  flex-direction: row;
+  background-color: #ae759f;
+  margin: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  justify-content: space-between;
+  max-width: 800px;
+}
+
+.FORM-div-label{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  max-width: 35%;
+  margin: 5px;
+  padding: 5px;
+  vertical-align: middle;
+}
+.FORM-div-input{
+  flex: 2;
+  display: flex;
+  align-items: center;
+  width: 65%;
+  margin: 5px;
+}
+.FORM-div input,
+.FORM-div select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid #210b2c;
+  width: 100%;
+  box-sizing: border-box;
+}
+.FORM-div input[type="checkbox"]{
+  cursor: pointer;
+  height: 20px;
+  background: #ae759f;
+}
+
+#FORM-submit-btn{
+  padding: 10px 25px 10px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #55286F;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+#FORM-submit-btn:hover{
+  background-color: #210b2c;
+  cursor: pointer;
+}
+
+/* END STYLING FOR 'STUDENT AND ASSIGNMENT FORMS' */
+/* ---------------------------------------------- */
+
+
+/* ---------------------------------------------- */
+/* BEGIN STYLING FOR 'Student page + studentcard' */
+.studentpage-bigdiv{
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studentcard-holder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #d8b4e2;
+  border: 2px solid black;
+  margin: 20px;
+  width: clamp(350px, 80vw, 900px);
+  outline: 2px solid #ae759f;
+}
+#studentcard-name{
+  font-size: 2rem;
+  font-weight: bolder;
+  margin: 5px;
+  padding: 0px;
+}
+#studentcard-pronouns{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0px;
+  padding: 0px;
+}
+#studentcard-image{
+  margin: 5px;
+  border: 6px solid #210b2c;
+  outline: 2px solid #ae759f;
+}
+.studentcard-details{
+  padding: 0px;
+  margin: 3px;
+}
+#studentcard-detail-header{
+  font-size: 1.2rem;
+  font-weight: bolder;
+  margin: 5px 0px 0px 0px;
+  padding: 0px;
+  text-decoration: underline;
+}
+#studentcard-eheader{
+  font-size: 1.2rem;
+  font-weight: bolder;
+  margin: 5px 0px 0px 0px;
+  padding: 0px;
+  text-decoration: underline;
+}
+.studentcard-btn-div{
+  padding: 10px;
+  width: 250px;
+  display: flex;
+  justify-content: space-evenly;
+}
+#studentcard-edit-btn{
+  padding: 5px 20px 5px 20px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  background-color: #55286F;
+  color: #fff;
+  font-weight: bolder;
+  outline: 2px solid #ae759f;
+}
+#studentcard-edit-btn:hover{
+  background-color: #ae759f;
+  color: #210b2c;
+  outline: 2px solid #210b2c;
+}
+#studentcard-delete-btn{
+  padding: 5px 20px 5px 20px;
+  border: none;
+  font-size: 0.8rem;
+  background-color: #210b2c;
+  color: #fff;
+  font-weight: bolder;
+  cursor: pointer;
+  outline: 2px solid #ae759f;
+}
+#studentcard-delete-btn:hover{
+  background-color: #ae759f;
+  color: #210b2c;
+  outline: 2px solid #210b2c;
+}
+
+.studentcard-header{
+  text-align: center;
+  margin-top: 10px;
+}
+.studentcard-body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studentcard-text-div{
+  padding: 0px 5px 0px 5px;
+  margin: 5px 5px 0px 5px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  max-width: 400px;
+}
+/* END STYLING FOR 'Student page + studentcard' */
+/* -------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* BEGIN STYLING FOR 'assignmentCard + assignmentRow' */
+.assignment-card-main {
+  background-color: #d8b4e2;
+  border: 2px solid #210b2c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(350px, 80vw, 900px);
+  outline: 2px solid #ae759f;
+  margin-bottom: 20px;
+}
+#add-assignment-btn{
+  border: 2px solid #210b2c;
+  color: #210b2c;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  font-weight: bolder;
+  margin: 15px 0px 15px 0px;
+  outline: 2px solid #ae759f;
+}
+#add-assignment-btn:hover{
+  background-color: #210b2c;
+  color: #fff;
+  cursor: pointer;
+  outline: 2px solid #ae759f;
+}
+.assignment-row{
+  border: 2px solid #210b2c;
+  width: clamp(327px, 80vw, 566px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px 5px 15px 5px;
+  outline: 2px solid #ae759f;
+}
+.assignment-row-details {
+  display: flex;
+  width: 100%;
+}
+.assignment-row-details p{
+  flex: 1;
+  margin: 0;
+  padding: 10px 5px 0px 5px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.assignment-row-comments {
+  margin: 10px 5px 0px 5px;
+  padding: 0px 20px 0px 20px;
+}
+
+.assignment-row-btn-holder{
+  padding: 10px;
+  width: 250px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.assignment-row-edit-btn {
+  padding: 5px 20px 5px 20px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  background-color: #55286F;
+  color: #fff;
+  font-weight: bolder;
+  cursor: pointer;
+  outline: 2px solid #ae759f;
+}
+.assignment-row-edit-btn:hover {
+  background-color: #ae759f;
+  color: #210b2c;
+  outline: 2px solid #210b2c;
+}
+.assignment-row-delete-btn {
+  padding: 5px 20px 5px 20px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  background-color: #210b2c;
+  color: #fff;
+  font-weight: bolder;
+  cursor: pointer;
+  border: none;
+  outline: 2px solid #ae759f;
+}
+.assignment-row-delete-btn:hover {
+  background-color: #ae759f;
+  color: #210b2c;
+  outline: 2px solid #210b2c;
+}
+
+#no-assignment-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(350px, 80vw, 600px);
+  background-color: #ae759f;
+  margin-top: 10px;
+}
+#no-assignment-div p {
+  font-weight: bolder;
+  font-size: 1.1rem;
+  margin: 10px;
+  padding: 10px 20px 10px 20px;
+  text-align: center;
+}
+
+/* END STYLING FOR 'assignmentCard + assignmentRow' */
+/* ----------------------------------------------- */
+
+
+
+
+
+/* ----------------------------------- */
+/* BEGIN STYLING FOR 'non mobile view' */
+@media screen and (min-width: 600px) {
+  
+}
+
+@media screen and (min-width: 450px) {
+  .studentcard-body{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* END STYLING FOR 'non mobile view' */
+/* --------------------------------- */

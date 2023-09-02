@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc, where, getDocs, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc, where, getDocs, getDoc, updateDoc, writeBatch } from "firebase/firestore";
 import { db } from "./firebase";
 import { getDownloadURL } from "./storage";
 
@@ -201,7 +201,34 @@ export async function deleteStudentRecord(studentSlug) {
     }
 }
 
-export async function updateStudentInfo(studentUID, updatedData) {
+export async function updateStudentInfo(studentUID, updatedData, oldSlug) {
     const studentRef = doc(db, STUDENTS_COLLECTION, studentUID);
+
+    const newSlug = updatedData.studentSlug;
+
+    if (oldSlug !== newSlug) {
+        await updateAssignmentsSlug(oldSlug, newSlug);
+    }
+
     await updateDoc(studentRef, updatedData);
+}
+
+async function updateAssignmentsSlug(oldSlug, newSlug) {
+    const assignmentsQuery = query(
+        collection(db, ASSIGNMENTS_COLLECTION),
+        where("studentSlug", "==", oldSlug)
+    );
+
+    const querySnapshot = await getDocs(assignmentsQuery);
+
+    // Start a batch
+    const batch = writeBatch(db);
+
+    querySnapshot.forEach((docSnapshot) => {
+        const assignmentRef = doc(db, ASSIGNMENTS_COLLECTION, docSnapshot.id);
+        batch.update(assignmentRef, { studentSlug: newSlug });
+    });
+
+    // Commit the batch
+    await batch.commit();
 }

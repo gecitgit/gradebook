@@ -57,36 +57,54 @@ export default function AssignmentPage() {
         }
     }
 
+    console.log("this is the student you're working on: ", studentSlug)
+
     return (
-        (!authUser) ? <CircularProgress /> 
+        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} /> 
         :
         <>
             <NavBar />
-            <h1>Assignment Form</h1>
-            <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <legend>add an assignment</legend>
-                    <div>
-                        <label htmlFor="assignmentClass">Class</label>
-                        <input required type='text' name='assignmentClass' id='assignmentClass' value={assignmentFormData.assignmentClass} onChange={handleChange} />
+            <div>
+
+            <form onSubmit={handleSubmit} className='FORM-body'>
+                <fieldset className='FORM-fieldset'>
+                    <legend>Add a new assignment</legend>
+                    <div className='FORM-div'>
+                        <div className='FORM-div-label'>
+                            <label htmlFor="assignmentClass">Class</label>
+                        </div>
+                        <div className='FORM-div-input'>
+                            <input required type='text' name='assignmentClass' id='assignmentClass' value={assignmentFormData.assignmentClass} onChange={handleChange} />
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="assignmentType">Type</label>
-                        <select required name='assignmentType' id='assignmentType' value={assignmentFormData.assignmentType} onChange={handleChange}>
-                            <option hidden value=''>Select Assignment type</option>
-                            <option value='homework'>Homework</option>
-                            <option value='quiz'>Quiz</option>
-                            <option value='test'>Test</option>
-                            <option value='project'>Project</option>
-                            <option value='other'>Other</option>
-                        </select>
+                    <div className='FORM-div'>
+                        <div className='FORM-div-label'>
+                            <label htmlFor="assignmentType">Type</label>
+                        </div>
+                        <div className='FORM-div-input'>
+                            <select required name='assignmentType' id='assignmentType' value={assignmentFormData.assignmentType} onChange={handleChange}>
+                                <option hidden value=''>Select Assignment type</option>
+                                <option value='Homework'>Homework</option>
+                                <option value='Quiz'>Quiz</option>
+                                <option value='Test'>Test</option>
+                                <option value='Project'>Project</option>
+                                <option value='Other'>Other</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="isSubmitted">Submitted?</label>
-                        <input type='checkbox' name='isSubmitted' id='isSubmitted' checked={assignmentFormData.isSubmitted} onChange={handleChange} />
+                    <div className='FORM-div'>
+                        <div className='FORM-div-label'>
+                            <label htmlFor="isSubmitted">Submitted?</label>
+                        </div>
+                        <div className='FORM-div-input'>
+                            <input type='checkbox' name='isSubmitted' id='isSubmitted' checked={assignmentFormData.isSubmitted} onChange={handleChange} /> 
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="assignmentGrade">Grade</label>
+                    <div className='FORM-div'>
+                        <div className='FORM-div-label'>
+                            <label htmlFor="assignmentGrade">Grade</label>
+                        </div>
+                        <div className='FORM-div-input'>
                         <input
                             required={assignmentFormData.isSubmitted}
                             type='text'
@@ -95,15 +113,21 @@ export default function AssignmentPage() {
                             value={assignmentFormData.assignmentGrade}
                             onChange={handleChange}
                             disabled={!assignmentFormData.isSubmitted}
-                        />
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="assignmentComments">Comments</label>
-                        <input required type='text' name='assignmentComments' id='assignmentComments' value={assignmentFormData.assignmentComments} onChange={handleChange} disabled={!assignmentFormData.isSubmitted}/>
+                    <div className='FORM-div'>
+                        <div className='FORM-div-label'>
+                            <label htmlFor="assignmentComments">Comments</label>
+                        </div>
+                        <div className='FORM-div-input'>
+                            <input required type='text' name='assignmentComments' id='assignmentComments' value={assignmentFormData.assignmentComments} onChange={handleChange} disabled={!assignmentFormData.isSubmitted}/>
+                        </div>
                     </div>
-                    <button type='submit' value="submit form">Submit</button>
                 </fieldset>
+                <button type='submit' value="submit form" id="FORM-submit-btn">Submit</button>
             </form>
+        </div>
         </>
     );
 }

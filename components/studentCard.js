@@ -10,6 +10,7 @@ import { storage } from "../firebase/firebase";
 
 import { deleteStudentAssignments, deleteStudentRecord } from "../firebase/firestore";
 import { deleteStudentImage } from "../firebase/storage";
+import { toast } from "react-toastify";
 
 export default function StudentCard(props) {
     const { authUser } = useAuth();
@@ -18,7 +19,7 @@ export default function StudentCard(props) {
     const router = useRouter();
     const student = props.studentInfo;
     console.log("student info inside of studenCard: ", student)
-    const studentbday = new Date(student.birthday)
+    const studentbday = new Date(student.birthday + "T00:00:00");
     const formattedBirthday = studentbday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})
     console.log("this is formattedBirthday: ", formattedBirthday)
     
@@ -31,6 +32,7 @@ export default function StudentCard(props) {
             console.log("delete was cancelled")
             return;
         }
+        toast.error('noob guy');
 
         try {
             await deleteStudentAssignments(studentSlug);
@@ -54,31 +56,40 @@ export default function StudentCard(props) {
     }
 
     return (
-        <div style={{ padding: '10px', border: '1px solid black', margin: '10px'}}>
-            <h2>{student.studentFirstName} {student.studentLastName}</h2>
-            <h4>{student.pronouns}</h4>
-             {/* this is the div that holds the image */}
-                <div style={{ width: "200px", height: "350px", position: "relative"}}> 
-                    <Image 
-                        alt="student image"
-                        src={student.imageUrl}
-                        fill={true}
-                    />
+        <div className="studentcard-holder">
+            <div className="studentcard-header">
+                <p id="studentcard-name">{student.studentFirstName} {student.studentLastName}</p>
+                <p id="studentcard-pronouns">{student.pronouns}</p>
+            </div>
+            <div className="studentcard-body">
+                <Image 
+                    alt="student image"
+                    src={student.imageUrl}
+                    loading="lazy"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '200px', height: 'auto' }}
+                    id="studentcard-image"
+                />
+                <div className="studentcard-text-div">
+                    <p id="studentcard-detail-header">Student Info</p>
+                    <p className="studentcard-details"><strong>Grade level: </strong>{student.gradeLevel}</p>
+                    <p className="studentcard-details"><strong>Birthday: </strong>{formattedBirthday}</p>
+                    <p className="studentcard-details"><strong>Academic Standing: </strong>{student.academicStanding}</p>
+                    <p className="studentcard-details"><strong>Hobbies: </strong>{student.hobbies}</p>
+                    <p className="studentcard-details"><strong>Allergies: </strong>{student.allergies}</p>
+                    <p id="studentcard-eheader">Emergency Contact Info</p>
+                    <p className="studentcard-details"><strong>Name: </strong>{student.emergencyContactName}</p>
+                    <p className="studentcard-details"><strong>Relationship: </strong>{student.emergencyContactRelationship}</p>
+                    <p className="studentcard-details"><strong>Phone: </strong>{student.emergencyContactPhone}</p>
                 </div>
-                <div>
-                    <p>Grade level: {student.gradeLevel}</p>
-                    <p>Birthday: {formattedBirthday}</p>
-                    <p>Academic Standing: {student.academicStanding}</p>
-                    <p>Hobbies: {student.hobbies}</p>
-                    <p>Allergies: {student.allergies}</p>
-                    <span><strong>Emergency contact info</strong></span>
-                    <p>Name: {student.emergencyContactName}</p>
-                    <p>Relationship: {student.emergencyContactRelationship}</p>
-                    <p>Phone: {student.emergencyContactPhone}</p>
-                </div>
+                    </div>
                 {/* <button onClick={handleEdit}>edit student</button> */}
-                <Link href={`/roster/${studentSlug}/editStudent`}>edit student</Link>
-                <button onClick={handleDelete}>delete student</button>
+                <div className="studentcard-btn-div">
+                    <Link href={`/roster/${studentSlug}/editStudent`} id="studentcard-edit-btn">EDIT</Link>
+                    <button onClick={handleDelete} id="studentcard-delete-btn">DELETE</button>
+                </div>
 
         </div>
     )

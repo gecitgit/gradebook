@@ -5,15 +5,6 @@ export default function StudentAssignmentRow(props) {
     const assignment = props.assignmentInfo;
     console.log("this is the assginment inside of the assignment row: ", assignment)
 
-    // function handleDelete() {
-    //     let result = confirm("are you sure you want to delete this assignment?")
-    //     if (result) {
-    //         deleteAssignment(assignment.id);
-    //     } else {
-    //         console.log("delete was cancelled")
-    //     }
-    // }
-
     const handleDelete = async () => {
         let result = confirm("are you sure you want to delete this assignment?")
         if (result) {
@@ -34,16 +25,21 @@ export default function StudentAssignmentRow(props) {
     }
 
     return (
-        <div style={{ padding: '10px', border: '2px solid black'}}>
-            <p>lmfao here's one more assignment</p>
-            <p>Class: {assignment.assignmentClass}</p>
-            <p>Type: {assignment.assignmentType}</p>
-            <p>Submitted: {assignment.isSubmitted ? 'true' : 'not submitted'}</p>
-            <p>Grade: {assignment.assignmentGrade || 'Not submitted yet'}</p>
-            <p>Comments: {assignment.assignmentComments || 'no comments yet'}</p>
+        <div className="assignment-row">
+            <div className="assignment-row-details">
+                <p><strong><u>Class</u></strong><br />{assignment.assignmentClass}</p>
+                <p><strong><u>Type</u></strong><br />{assignment.assignmentType}</p>
+                <p><strong><u>Submitted</u></strong><br />{assignment.isSubmitted ? 'YES' : 'NO'}</p>
+                <p><strong><u>Grade</u></strong><br />{assignment.assignmentGrade || 'N/A'}</p>
+            </div>
+            <div className="assignment-row-comments">
+                <strong><u>Comments:</u> </strong>{assignment.assignmentComments || 'There are no comments for this assignment.'}
+            </div>
             {/* <button onClick={handleEdit}>edit</button> */}
-            <Link href={`/roster/${assignment.studentSlug}/assignmentForm/${assignment.id}`}>edit</Link>
-            <button onClick={handleDelete}>delete</button>
+            <div className="assignment-row-btn-holder">
+                <Link href={`/roster/${assignment.studentSlug}/assignmentForm/${assignment.id}`} className="assignment-row-edit-btn">EDIT</Link>
+                <button onClick={handleDelete} className="assignment-row-delete-btn">DELETE</button>
+            </div>
         </div>
     )
 }

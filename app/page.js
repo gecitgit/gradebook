@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebase'
 import { useAuth } from '../firebase/auth';
 import { useRouter } from 'next/navigation';
+import image from 'public/pexels-cottonbro-studio-4769464.jpg'
 
 const REDIRECT_PAGE = "/roster";
 
@@ -34,18 +35,33 @@ export default function Home() {
   return (
     (isLoading || (!isLoading && !!authUser)) 
     ?
-    <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '50%' }} /> 
+    <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"45%", marginTop: "25%" }}/> 
     :
-    <div>
+    <div style={{
+      backgroundImage: `url(${image.src})`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "100vh",
+      width: "100vw",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+
+    }}>
       <Head>
         <title>Grading</title>
       </Head>
 
       <main>
-        <Container>
-          <Typography variant="h1">Welcome to gradebook</Typography>
-          <Typography variant="h2">do some stuff with grades</Typography>
-          <Typography variant="h3">or don't, i don't care.</Typography>
+        <Container id="login-page-text">
+          <h1>Welcome to Gradebook</h1>
+          <p>
+            Gradebook is a tool for teachers to manage their students' grades.
+            It is designed to be simple and easy to use.
+            Login below to get started!
+          </p>
           <div>
             <Button variant="contained" color="secondary"
               onClick={() => setLogin(true)}>

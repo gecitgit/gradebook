@@ -61,7 +61,7 @@ export default function StudentPage() {
     console.log("this is your student now: ", studentInfo);
     
     if (isFetching) {
-        return <CircularProgress />;
+        return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>;
     }
 
     if (error) {
@@ -71,9 +71,7 @@ export default function StudentPage() {
     return (
         <>
             <NavBar />
-            <div style={{ border: "2px solid purple"}}>
-                <h2>{studentInfo.studentFirstName} {studentInfo.studentLastName}</h2>
-                <p>Here is the shortened pathname: <b>{shortenedPath}</b></p>
+            <div className="studentpage-bigdiv">
                     <StudentCard studentInfo={studentInfo}/>
                     <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments}/>
             </div>
