@@ -17,13 +17,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ffffffb4;
+  background-color: #ffffffe7;
   width: clamp(350px, 80vw, 600px);
   text-align: center;
   margin: 0px;
   padding: 10px;
   border-radius: 12px;
   font-weight: bolder;
+}
+#login-page-text p{
+  padding: 10px;
+  margin: 5px;
+}
+#login-page-text div{
+  padding: 0px;
+  margin: 0px;
 }
 
 /* -------------------------- */

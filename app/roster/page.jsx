@@ -47,7 +47,7 @@ export default function Roster() {
     }, [authUser]);
 
     return (
-        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"50%", marginTop: "25%" }} />
+        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
         :
 
         <div className='roster-big-div'>
