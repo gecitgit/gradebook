@@ -8,22 +8,36 @@ import { useRouter } from 'next/navigation';
 import { deleteObject } from "firebase/storage";
 import { storage } from "../firebase/firebase";
 
-import { deleteStudentAssignments, deleteStudentRecord } from "../firebase/firestore";
+import { deleteStudentAssignments, deleteStudentRecord, deleteStudentAndAssignments, deleteStudentOnly, deleteAssignmentsOnly, deleteAssignment } from "../firebase/firestore";
 import { deleteStudentImage } from "../firebase/storage";
 import { toast } from "react-toastify";
 
 export default function StudentCard(props) {
     const { authUser } = useAuth();
 
+    console.log("THESE ARE THE PROPS INSIDE OF studentCard Component: ", props);
+
+    const assignmentsForStudent = props.assignments;
+    console.log("assignmentsForStudent inside of studentCard Component: ", assignmentsForStudent);
+
+    const idsForAssignments = assignmentsForStudent.map((assignment) => {
+        return assignment.id;
+    })
+    console.log("idsForAssignments inside of studentCard Component: ", idsForAssignments);
+    console.log("THIS IS THE LENGTH OF idsForAssignments: ", idsForAssignments.length)
+
     
     const router = useRouter();
     const student = props.studentInfo;
-    console.log("student info inside of studenCard: ", student)
+    console.log("student info inside of studentCard Component: ", student)
     const studentbday = new Date(student.birthday + "T00:00:00");
     const formattedBirthday = studentbday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})
-    console.log("this is formattedBirthday: ", formattedBirthday)
+    console.log("this is formattedBirthday inside of studentCard Component: ", formattedBirthday)
     
     const studentSlug = student.studentSlug;
+    const studentId = student.studentUID;
+    console.log("this is the authUser inside of studentCard Component:  ", authUser)
+    console.log("This is the studentSlug that was pulled for current student inside of studentCard Component:  ", studentSlug);
 
     const handleDelete = async () => {
         let result = confirm("are you absolutely sure you want to delete this student? you can't go back! all of this student's assignments will be deleted as well!");
@@ -32,26 +46,30 @@ export default function StudentCard(props) {
             console.log("delete was cancelled")
             return;
         }
-        toast.error('noob guy');
-
         try {
-            await deleteStudentAssignments(studentSlug);
-            console.log("student assignments deleted successfully");
+            console.log("WE ARE DELETING THIS STUDENT: ", studentId);
+            await deleteStudentOnly(studentId);
+            console.log("student deleted successfully");
 
-            await deleteStudentRecord(studentSlug);
-            console.log("student record deleted successfully");
+            for (const assignmentId of idsForAssignments) {
+                console.log("WE ARE DELETING THIS ASSIGNMENT: ", assignmentId)
+                await deleteAssignment(assignmentId);
+            }
+            console.log("assignments deleted successfully");
 
+            
+            console.log("WE ARE DELETING THIS PICTURE: ", student.imageUrl);
             await deleteStudentImage(student.imageUrl);
             console.log("student image deleted successfully");
 
             router.push('/roster');
         } catch (error) {
-            console.error("error deleting student: ", error)
+            console.error("error deleting student inside of handleDelete: ", error)
         }
     }
 
     const handleEdit = () => {
-        console.log("edit button clicked")
+        console.log("edit button clicked inside of studentCard Component: ")
         router.push(`/roster/${studentSlug}/editStudent`)
     }
 

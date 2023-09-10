@@ -58,7 +58,7 @@ export default function StudentPage() {
         fetchAssignments();
     }, [authUser, studentInfo]);
     
-    console.log("this is your student now: ", studentInfo);
+    console.log("this is your student now from the StudentPage Route: ", studentInfo);
     
     if (isFetching) {
         return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>;
@@ -72,7 +72,7 @@ export default function StudentPage() {
         <>
             <NavBar />
             <div className="studentpage-bigdiv">
-                    <StudentCard studentInfo={studentInfo}/>
+                    <StudentCard studentInfo={studentInfo} assignments={assignments} />
                     <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments}/>
             </div>
         </>

@@ -14,6 +14,7 @@ export default function Roster() {
     const router = useRouter();
     const [students, setStudents] = useState([]);
     const [duplicatedSlugs, setDuplicatedSlugs] = useState(new Set());
+    const [loadingStudents, setLoadingStudents] = useState(true);
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -39,7 +40,8 @@ export default function Roster() {
                     }
                 }
 
-                setDuplicatedSlugs(duplicates);  
+                setDuplicatedSlugs(duplicates);
+                setLoadingStudents(false);
             }
         };
     
@@ -58,11 +60,15 @@ export default function Roster() {
                 { duplicatedSlugs.size > 0 && <div id="dupe-div"><p id="dupe-student-warning">
                     You have duplicate students!</p><p id="dupe-student-expl">Two or more students have the exact same name and birthday, which indicates a possible double entry. If this is an error, please delete the duplicated student. If these are indeed two separate students then consider adding an identifer to one of them to ensure their files are kept separate.</p></div>}
             </div>
-            {students.length === 0 ?
-                <div id="no-student-div">
-                    <p>You don't have any students yet! Click the button above to add your first student to your roster.</p>
-                </div>
-            :
+
+            { loadingStudents ? 
+                <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
+                :
+                students.length === 0 ?
+                    <div id="no-student-div">
+                        <p>You don't have any students yet! Click the button above to add your first student to your roster.</p>
+                    </div>
+                    :
                 <div id="student-row-holder">
                     { students.map((student) => {
                         return (

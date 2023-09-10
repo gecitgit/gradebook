@@ -5,8 +5,8 @@ export default function StudentAssignmentCard(props) {
     const student = props.studentInfo;
     const assignments = props.assignments
     // console.log("props inside of student assignment card: ", props)
-    console.log("this is student inside of assignent card: ", student);
-    console.log("this is assignments inside of assignment card: ", assignments);
+    console.log("this is student inside of studentAssignmentCard Component: ", student);
+    console.log("this is assignments inside of studentAssignmentCard Component: ", assignments);
     return (
         <div className="assignment-card-main">
             <Link href={`/roster/${student.studentSlug}/assignmentForm`} id="add-assignment-btn">+ Add new assignment</Link>

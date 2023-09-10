@@ -46,9 +46,9 @@ export default function AssignmentPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("submitting assignment form: ", assignmentFormData);
-        console.log("this is the user: ", authUser.uid)
-        console.log("this is student slug: ", studentSlug)
+        console.log("submitting assignment form from AssignmentPage Route: ", assignmentFormData);
+        console.log("this is the user from AssignmentPage Route: ", authUser.uid)
+        console.log("this is student slug from AssignmentPage Route: ", studentSlug)
         try {
             await addAssignment(authUser.uid, assignmentFormData.assignmentClass, assignmentFormData.assignmentType, assignmentFormData.isSubmitted, assignmentFormData.assignmentGrade, assignmentFormData.assignmentComments, studentSlug);
             router.push(`/roster/${studentSlug}`);
@@ -57,7 +57,7 @@ export default function AssignmentPage() {
         }
     }
 
-    console.log("this is the student you're working on: ", studentSlug)
+    console.log("this is the student you're working on inside of the AssignmentPage Route: ", studentSlug)
 
     return (
         (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} /> 

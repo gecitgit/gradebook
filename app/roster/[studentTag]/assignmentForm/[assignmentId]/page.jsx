@@ -54,7 +54,7 @@ export default function AssignmentPageUpdate() {
         fetchAssignment();
     }, [authUser, assignmentId]);
 
-    console.log("this is the assignemntdata: ", assignmentData);
+    console.log("this is the assignemntdata inside of AssignmentPageUpdate Route: ", assignmentData);
 
     if (isFetching) {
         return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
@@ -84,11 +84,11 @@ export default function AssignmentPageUpdate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("form submitted wit these values: ", assignmentFormData);
+        console.log("form submitted wit these values from the AssignmentPageUpdate Route: ", assignmentFormData);
 
         try {
             await updateAssignment(assignmentId, assignmentFormData);
-            console.log("assignment updated successfully!");
+            console.log("assignment updated successfully from the AssignmentPageUpdate Route!");
             router.push(`/roster/${studentSlug}`)
         } catch (error) {
             console.error("error updating assignment: ", error);

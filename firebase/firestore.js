@@ -65,7 +65,10 @@ export async function getStudentInfo(uid, studentSlug) {
 }
 
 export async function addAssignment(uid, assignmentClass, assignmentType, isSubmitted, assignmentGrade, assignmentComments, studentSlug) {
-    addDoc(collection(db, ASSIGNMENTS_COLLECTION), {
+    const newAssignmentRef = doc(collection(db, ASSIGNMENTS_COLLECTION));
+
+    await setDoc(newAssignmentRef, {
+        id: newAssignmentRef.id,
         uid,
         assignmentClass,
         assignmentType,
@@ -173,10 +176,38 @@ export async function deleteStudentAssignments(studentSlug) {
 
     // Iterate over the assignments array and delete each one
     for (const assignment of assignmentsToDelete) {
-        console.log("Deleting assignment:", assignment);
-        await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, assignment.id));
+        console.log("Deleting assignment:", assignment.uid, "Authenticated UID: ", firebase.auth().currentUser.uid);
+        // await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, assignment.id));
+        try {
+            await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, assignment.id));
+        } catch (error) {
+            console.error("Error deleting assignment:", error);
+        }
     }
 }
+
+// export async function deleteStudentAssignments(studentSlug) {
+//     try {
+//         console.log("Inside deleteStudentAssignments. Slug:", studentSlug);
+
+//         const studentAssignments = query(collection(db, ASSIGNMENTS_COLLECTION), where("studentSlug", "==", studentSlug));
+//         const querySnapshot = await getDocs(studentAssignments);
+
+//         const assignmentIdsToDelete = [];
+//         querySnapshot.forEach((doc) => {
+//             assignmentIdsToDelete.push(doc.id);
+//         });
+//         console.log("assignment ids to be deleted: ", assignmentIdsToDelete);
+
+//         for (const assignmentId of assignmentIdsToDelete) {
+//             console.log("preparing to delete: ", assignmentId);
+//             await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, assignmentId));
+//         }
+//     } catch (error) {
+//         console.error("Error inside deleteStudentAssignments:", error);
+//         throw error;  // Re-throw the error to propagate it to calling functions
+//     }
+// }
 
 
 export async function deleteStudentRecord(studentSlug) {
@@ -200,6 +231,60 @@ export async function deleteStudentRecord(studentSlug) {
         console.warn("No student found with slug:", studentSlug);
     }
 }
+
+export async function deleteStudentAndAssignments(studentSlug, studentId) {
+    try {
+        await deleteDoc(doc(db, STUDENTS_COLLECTION, studentId));
+
+        const studentAssignments = query(collection(db, ASSIGNMENTS_COLLECTION), where("studentSlug", "==", studentSlug));
+        const querySnapshot = await getDocs(studentAssignments);
+        for (const doc of querySnapshot.docs) {
+            await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, doc.id));
+        }
+    } catch (error) {
+        console.error("Error inside deleteStudentAndAssignments:", error);
+        throw error;
+    }
+}
+
+export async function deleteStudentOnly(studentId) {
+    try {
+        await deleteDoc(doc(db, STUDENTS_COLLECTION, studentId));
+    } catch (error) {
+        console.error("Error inside deleteStudentOnly:", error);
+        throw error;
+    }
+}
+
+export async function deleteAssignmentsOnly(studentId) {
+    try {
+        // Step 1 & 2: Fetch the student document using the studentId
+        const studentDocRef = doc(db, STUDENTS_COLLECTION, studentId);
+        const studentDocSnap = await getDoc(studentDocRef);
+
+        if (!studentDocSnap.exists) {
+            console.error("Student not found:", studentId);
+            return; // Early return if student doesn't exist
+        }
+
+        // Step 3: Extract studentSlug
+        const studentData = studentDocSnap.data();
+        const studentSlug = studentData.studentSlug;
+
+        // Step 4: Query assignments using studentSlug and delete them
+        const studentAssignments = query(collection(db, ASSIGNMENTS_COLLECTION), where("studentSlug", "==", studentSlug));
+        const querySnapshot = await getDocs(studentAssignments);
+        for (const doc of querySnapshot.docs) {
+            await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, doc.id));
+        }
+
+    } catch (error) {
+        console.error("Error inside deleteAssignmentsOnly:", error);
+        throw error;
+    }
+}
+
+
 
 export async function updateStudentInfo(studentUID, updatedData, oldSlug) {
     const studentRef = doc(db, STUDENTS_COLLECTION, studentUID);
