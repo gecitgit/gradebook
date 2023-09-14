@@ -291,29 +291,38 @@ export async function updateStudentInfo(studentUID, updatedData, oldSlug) {
 
     const newSlug = updatedData.studentSlug;
 
-    if (oldSlug !== newSlug) {
-        await updateAssignmentsSlug(oldSlug, newSlug);
-    }
+    // if (oldSlug !== newSlug) {
+    //     // await updateAssignmentsSlug(oldSlug, newSlug, studentUID);
+    //     console.log("the old slug is being swapped with the new!");
+    // }
 
     await updateDoc(studentRef, updatedData);
+    console.log("THIS IS WHERE I WOULD UPDATE THE STUDENT IF I COULD")
 }
 
-async function updateAssignmentsSlug(oldSlug, newSlug) {
-    const assignmentsQuery = query(
-        collection(db, ASSIGNMENTS_COLLECTION),
-        where("studentSlug", "==", oldSlug)
-    );
+async function updateAssignmentsSlug(oldSlug, newSlug, studentUID) {
+    try {
+        
+        const studentDocRef = doc(db, STUDENTS_COLLECTION, studentUID);
+        const studentDocSnap = await getDoc(studentDocRef);
 
-    const querySnapshot = await getDocs(assignmentsQuery);
+        if (!studentDocSnap.exists) {
+            console.error("Student not found: ", studentUID);
+            return;
+        }
 
-    // Start a batch
-    const batch = writeBatch(db);
+        const studentData = studentDocSnap.data();
+        const studentSlug = studentData.studentSlug;
 
-    querySnapshot.forEach((docSnapshot) => {
-        const assignmentRef = doc(db, ASSIGNMENTS_COLLECTION, docSnapshot.id);
-        batch.update(assignmentRef, { studentSlug: newSlug });
-    });
+        console.log("this is the studentSlug thats being submitted in updateAssignmentsSlug: ", studentSlug);
 
-    // Commit the batch
-    await batch.commit();
+        const studentAssignments = query(collection(db, ASSIGNMENTS_COLLECTION), where("studentSlug", "==", studentSlug));
+        const querySnapshot = await getDocs(studentAssignments);
+
+
+    } catch (error) {
+        console.error("error inside of updateAssignmentsslug: ", error.message);
+        throw error;
+    }
+
 }

@@ -1,5 +1,12 @@
 import { AuthUserProvider } from '../firebase/auth';
 import './globals.css'
+import { ToastContainer, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import dynamic from 'next/dynamic';
+
+const DynamicToastContainer = dynamic(() => import('../components/DynamicToast'), {
+  ssr: false,
+})
 
 export const metadata = {
   title: 'Gradebook',
@@ -12,6 +19,14 @@ export default function RootLayout({ children }) {
         <html lang="en">
           <body>
             {children}
+            {/* <DynamicToastContainer 
+              position="top-center"
+              autoClose={2500}
+              transition={Flip}
+              newestOnTop={true}
+              limit={4}
+              style={{ paddingTop: "10px", paddingLeft: "5px", paddingRight: "5px"}}
+            /> */}
             </body>
         </html>
       </AuthUserProvider>

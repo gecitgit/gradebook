@@ -5,10 +5,11 @@ import NavBar from '@/components/navbar';
 import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { getStudentInfo } from '../../../../firebase/firestore';
+import { deleteStudentAssignments, getAssignments, getStudentInfo, updateAssignment } from '../../../../firebase/firestore';
 import { updateStudentInfo } from '../../../../firebase/firestore';
 import slugify from 'slugify';
 import { getDownloadURL, deleteOldImage, uploadImage } from '../../../../firebase/storage';
+import { id } from 'date-fns/locale';
 
 const DEFAULT_FILE_NAME = "No file selected";
 
@@ -24,6 +25,8 @@ export default function EditStudent() {
     const [isFetching, setIsFetching] = useState(true);
 
     const [studentData, setStudentData] = useState({});
+
+    const [assignments, setAssignments] = useState([]);
 
     const [fileData, setFileData] = useState({
         fileName: DEFAULT_FILE_NAME,
@@ -55,6 +58,22 @@ export default function EditStudent() {
         }
         fetchStudentInfo();
     }, [authUser, studentSlug]);
+
+
+    useEffect(() => {
+        const fetchAssignments = async () => {
+            if (authUser && studentData && studentData.studentSlug) {
+                setAssignments(await getAssignments(authUser.uid, studentData.studentSlug));
+            }
+        };
+        fetchAssignments();
+    }, [authUser, studentData]);
+
+    console.log("this is the student data on edit student page: ", studentData);
+    console.log("this is the assignments on edit student page: ", assignments);
+
+    const idsForAssignmentsToUpdate = assignments.map((assignment) => assignment.id);
+    console.log("THIS IS THE LIST OF ASSIGNMENTS TO UPDATE: ", idsForAssignmentsToUpdate);
 
     if (isFetching) {
         return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>
@@ -96,10 +115,12 @@ export default function EditStudent() {
         const updatedStudentSlug = `${firstNameSlug}-${lastNameSlug}-${birthdaySlug}`;
         console.log("this is the updated student slug: ", updatedStudentSlug);
 
+        console.log("this is student data after new slug is made: ", studentData);
         const updatedData = {
             ...studentData,
             studentSlug: updatedStudentSlug
         };
+        console.log("this is updated data after new slug is made: ", updatedData);
 
         const studentUID = studentData.studentUID;
 
@@ -111,12 +132,26 @@ export default function EditStudent() {
             updatedData.imageBucket = newImageBucket;
             updatedData.imageUrl = newImageUrl;
         }
-
+        console.log("THIS IS THE UPDATED DATA BEING SUBMITTED: ", updatedData)
         try {
             await updateStudentInfo(studentUID, updatedData, oldSlug);
-            console.log("student info updated successfully!");
-            console.log("this is what the updated data looked like: ", updatedData);
-            console.log("this is oldslug being submitted in the update form: ", oldSlug);
+            // console.log("student info updated successfully!");
+            console.log("this is our authUser: ", authUser.uid);
+
+            if (idsForAssignmentsToUpdate.length > 0) {
+                let updatedAssignments = assignments.map(assignment => {
+                    return {
+                        ...assignment,
+                        studentSlug: updatedStudentSlug
+                    };
+                });
+
+                for (let assignment of updatedAssignments) {
+                    console.log("this is the assignment thats been updated: ", assignment);
+                    console.log("this is the updated assignment id: ", assignment.id);
+                    await updateAssignment(assignment.id, assignment);
+                }
+            }
             router.push(`/roster/${updatedStudentSlug}`);
         } catch (error) {
             console.error("error updating student info: ", error);

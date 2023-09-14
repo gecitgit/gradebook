@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../../../firebase/auth';
 import NavBar from '@/components/navbar';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Alert } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { updateAssignment } from '../../../../../firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -89,13 +89,13 @@ export default function AssignmentPageUpdate() {
         try {
             await updateAssignment(assignmentId, assignmentFormData);
             console.log("assignment updated successfully from the AssignmentPageUpdate Route!");
-            router.push(`/roster/${studentSlug}`)
+            router.push(`/roster/${studentSlug}`);
         } catch (error) {
             console.error("error updating assignment: ", error);
         }
     }
-
-
+    
+    
     return (
         <>
             <NavBar />
@@ -103,6 +103,7 @@ export default function AssignmentPageUpdate() {
 
             <form onSubmit={handleSubmit} className='FORM-body'>
                 <fieldset className='FORM-fieldset'>
+        <Alert variant="outlined" severity="success">Assignment updated successfully!</Alert>
                     <legend>edit this shit</legend>
                     <div className='FORM-div'>
                         <div className='FORM-div-label'>

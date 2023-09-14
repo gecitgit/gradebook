@@ -18,6 +18,7 @@ export default function Roster() {
 
     useEffect(() => {
         if (!isLoading && !authUser) {
+            // toast.success("Successfully logged in!")
             router.push('/');
         }
     }, [authUser, isLoading, router]);
@@ -44,41 +45,41 @@ export default function Roster() {
                 setLoadingStudents(false);
             }
         };
-    
+
         fetchStudents();
     }, [authUser]);
 
     return (
-        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
-        :
+        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft: "40%", marginTop: "25%" }} />
+            :
 
-        <div className='roster-big-div'>
-            <NavBar />
-            <div id="roster-main-page">
-                <h2>Current Roster</h2>
-                <Link href="/student-form" id="add-student-btn">+ Add student</Link>
-                { duplicatedSlugs.size > 0 && <div id="dupe-div"><p id="dupe-student-warning">
-                    You have duplicate students!</p><p id="dupe-student-expl">Two or more students have the exact same name and birthday, which indicates a possible double entry. If this is an error, please delete the duplicated student. If these are indeed two separate students then consider adding an identifer to one of them to ensure their files are kept separate.</p></div>}
-            </div>
-
-            { loadingStudents ? 
-                <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
-                :
-                students.length === 0 ?
-                    <div id="no-student-div">
-                        <p>You don't have any students yet! Click the button above to add your first student to your roster.</p>
-                    </div>
-                    :
-                <div id="student-row-holder">
-                    { students.map((student) => {
-                        return (
-                            <div key={student.id}>
-                                <StudentRow student={student} isDuplicated={duplicatedSlugs.has(student.studentSlug)} />
-                            </div>
-                        )
-                    })}
+            <div className='roster-big-div'>
+                <NavBar />
+                <div id="roster-main-page">
+                    <h2>Current Roster</h2>
+                    <Link href="/student-form" id="add-student-btn">+ Add student</Link>
+                    {duplicatedSlugs.size > 0 && <div id="dupe-div"><p id="dupe-student-warning">
+                        You have duplicate students!</p><p id="dupe-student-expl">Two or more students have the exact same name and birthday, which indicates a possible double entry. If this is an error, please delete the duplicated student. If these are indeed two separate students then consider adding an identifer to one of them to ensure their files are kept separate.</p></div>}
                 </div>
-            }
-        </div>
+
+                {loadingStudents ?
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft: "40%", marginTop: "25%" }} />
+                    :
+                    students.length === 0 ?
+                        <div id="no-student-div">
+                            <p>You don't have any students yet! Click the button above to add your first student to your roster.</p>
+                        </div>
+                        :
+                        <div id="student-row-holder">
+                            {students.map((student) => {
+                                return (
+                                    <div key={student.id}>
+                                        <StudentRow student={student} isDuplicated={duplicatedSlugs.has(student.studentSlug)} />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                }
+            </div>
     )
 }

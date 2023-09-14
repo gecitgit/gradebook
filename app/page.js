@@ -9,6 +9,7 @@ import { auth } from '../firebase/firebase'
 import { useAuth } from '../firebase/auth';
 import { useRouter } from 'next/navigation';
 import image from 'public/bg-desk-small.jpg'
+import { toast } from 'react-toastify';
 
 const REDIRECT_PAGE = "/roster";
 
