@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from '../firebase/auth'
 import { deleteStudent } from "../firebase/firestore";
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,14 @@ import { storage } from "../firebase/firebase";
 
 import { deleteStudentAssignments, deleteStudentRecord, deleteStudentAndAssignments, deleteStudentOnly, deleteAssignmentsOnly, deleteAssignment } from "../firebase/firestore";
 import { deleteStudentImage } from "../firebase/storage";
-import { toast } from "react-toastify";
+import { Dialog, Button, DialogTitle, DialogContent, DialogActions, DialogContentText, Checkbox, FormControlLabel } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ReusableDialog from "./reusableDialog";
 
 export default function StudentCard(props) {
     const { authUser } = useAuth();
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+    const [deleteIsChecked, setDeleteIsChecked] = useState(false);
 
     console.log("THESE ARE THE PROPS INSIDE OF studentCard Component: ", props);
 
@@ -26,46 +30,21 @@ export default function StudentCard(props) {
     console.log("idsForAssignments inside of studentCard Component: ", idsForAssignments);
     console.log("THIS IS THE LENGTH OF idsForAssignments: ", idsForAssignments.length)
 
-    
+
     const router = useRouter();
     const student = props.studentInfo;
     console.log("student info inside of studentCard Component: ", student)
     const studentbday = new Date(student.birthday + "T00:00:00");
-    const formattedBirthday = studentbday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})
+    const formattedBirthday = studentbday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     console.log("this is formattedBirthday inside of studentCard Component: ", formattedBirthday)
-    
+
     const studentSlug = student.studentSlug;
     const studentId = student.studentUID;
     console.log("this is the authUser inside of studentCard Component:  ", authUser)
     console.log("This is the studentSlug that was pulled for current student inside of studentCard Component:  ", studentSlug);
 
     const handleDelete = async () => {
-        let result = confirm("are you absolutely sure you want to delete this student? you can't go back! all of this student's assignments will be deleted as well!");
-        
-        if (!result) {
-            console.log("delete was cancelled")
-            return;
-        }
-        try {
-            console.log("WE ARE DELETING THIS STUDENT: ", studentId);
-            await deleteStudentOnly(studentId);
-            console.log("student deleted successfully");
-
-            for (const assignmentId of idsForAssignments) {
-                console.log("WE ARE DELETING THIS ASSIGNMENT: ", assignmentId)
-                await deleteAssignment(assignmentId);
-            }
-            console.log("assignments deleted successfully");
-
-            
-            console.log("WE ARE DELETING THIS PICTURE: ", student.imageUrl);
-            await deleteStudentImage(student.imageUrl);
-            console.log("student image deleted successfully");
-
-            router.push('/roster');
-        } catch (error) {
-            console.error("error deleting student inside of handleDelete: ", error)
-        }
+        setOpenConfirmDialog(true);
     }
 
     const handleEdit = () => {
@@ -73,14 +52,53 @@ export default function StudentCard(props) {
         router.push(`/roster/${studentSlug}/editStudent`)
     }
 
+    const performDelete = async () => {
+        try {
+            console.log("WE ARE DELETING THIS STUDENT: ", studentId);
+            await deleteStudentOnly(studentId);
+            console.log("student deleted successfully");
+
+            for (const assignmentId of idsForAssignments) {
+                console.log("WE ARE DELEING THIS ASSIGNMENT: ", assignmentId)
+                await deleteAssignment(assignmentId);
+            }
+            console.log("assignments deleted successfully");
+
+            console.log("we are deelting this picture: ", student.imageUrl);
+            await deleteStudentImage(student.imageUrl);
+            console.log("student image deleted successfully");
+
+            router.push('/roster');
+        } catch (error) {
+            console.error("error deleting student inside of performDelete: ", error)
+        }
+    }
+
+
     return (
         <div className="studentcard-holder">
+            <ReusableDialog
+                isOpen={openConfirmDialog}
+                onClose={() => setOpenConfirmDialog(false)}
+                title="DELETE STUDENT"
+                contentText="Are you sure you want to delete this student? This student and all of their assignments will be deleted.  This action cannot be undone."
+                hasCheckbox={true}
+                checkboxText="I understand this action is permanent."
+                onConfirm={async () => {
+                    setOpenConfirmDialog(false);
+                    await performDelete();
+                }}
+                primaryButtonText="Delete"
+                secondaryButtonText="Cancel"
+            />
+            
+            
             <div className="studentcard-header">
                 <p id="studentcard-name">{student.studentFirstName} {student.studentLastName}</p>
                 <p id="studentcard-pronouns">{student.pronouns}</p>
             </div>
             <div className="studentcard-body">
-                <Image 
+                <Image
                     alt="student image"
                     src={student.imageUrl}
                     loading="lazy"
@@ -102,12 +120,11 @@ export default function StudentCard(props) {
                     <p className="studentcard-details"><strong>Relationship: </strong>{student.emergencyContactRelationship}</p>
                     <p className="studentcard-details"><strong>Phone: </strong>{student.emergencyContactPhone}</p>
                 </div>
-                    </div>
-                {/* <button onClick={handleEdit}>edit student</button> */}
-                <div className="studentcard-btn-div">
-                    <Link href={`/roster/${studentSlug}/editStudent`} id="studentcard-edit-btn">EDIT</Link>
-                    <button onClick={handleDelete} id="studentcard-delete-btn">DELETE</button>
-                </div>
+            </div>
+            <div className="studentcard-btn-div">
+                <Link href={`/roster/${studentSlug}/editStudent`} id="studentcard-edit-btn">EDIT</Link>
+                <button onClick={handleDelete} id="studentcard-delete-btn">DELETE</button>
+            </div>
 
         </div>
     )

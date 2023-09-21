@@ -57,7 +57,16 @@ export default function AssignmentPageUpdate() {
     console.log("this is the assignemntdata inside of AssignmentPageUpdate Route: ", assignmentData);
 
     if (isFetching) {
-        return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} />
+        return (
+            <>
+                <NavBar />
+                    <div className="overlay-blur"></div>
+                    <div className='progress-div'>
+                        <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+                    </div>
+            </>
+        )
+    
     }
     
     if (error) {
@@ -91,6 +100,7 @@ export default function AssignmentPageUpdate() {
             console.log("assignment updated successfully from the AssignmentPageUpdate Route!");
             router.push(`/roster/${studentSlug}`);
         } catch (error) {
+            alert("error updating assignment")
             console.error("error updating assignment: ", error);
         }
     }
@@ -103,8 +113,7 @@ export default function AssignmentPageUpdate() {
 
             <form onSubmit={handleSubmit} className='FORM-body'>
                 <fieldset className='FORM-fieldset'>
-        <Alert variant="outlined" severity="success">Assignment updated successfully!</Alert>
-                    <legend>edit this shit</legend>
+                    <legend>Update the assignment</legend>
                     <div className='FORM-div'>
                         <div className='FORM-div-label'>
                             <label htmlFor='assignmentClass'>Class</label>
@@ -163,7 +172,8 @@ export default function AssignmentPageUpdate() {
                     </div>
 
                 </fieldset>
-                <button type='submit' value='submit form' id='FORM-submit-btn'>Submit this ish</button>
+                <button type='submit' value='submit form' id='FORM-submit-btn'>Update</button>
+                <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
             </form>
                             </div>
         </>

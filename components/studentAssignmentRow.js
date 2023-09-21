@@ -1,27 +1,21 @@
+import { useState } from "react";
 import Link from "next/link";
 import { deleteAssignment } from "../firebase/firestore";
+import ReusableDialog from "./reusableDialog";
 
 export default function StudentAssignmentRow(props) {
     const assignment = props.assignmentInfo;
     console.log("this is the assginment inside of the assignment row: ", assignment)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-    const handleDelete = async () => {
-        let result = confirm("are you sure you want to delete this assignment?")
-        if (result) {
-            try {
-                await deleteAssignment(assignment.id);
-                console.log("deleted successfully poggers");
-                location.reload();
-            } catch (error) {
-                console.error("error deleting the assignment: ", error);
-            }
-        } else {
-            console.log("delete was cancelled")
+    const handleDeleteConfirm = async () => {
+        try {
+            await deleteAssignment(assignment.id);
+            console.log("deleted successfully");
+            location.reload();
+        } catch (error) {
+            console.error("error deleting the assignment: ", error);
         }
-    }
-
-    function handleEdit() {
-        console.log("edit button clicked")
     }
 
     return (
@@ -35,11 +29,26 @@ export default function StudentAssignmentRow(props) {
             <div className="assignment-row-comments">
                 <strong><u>Comments:</u> </strong>{assignment.assignmentComments || 'There are no comments for this assignment.'}
             </div>
-            {/* <button onClick={handleEdit}>edit</button> */}
             <div className="assignment-row-btn-holder">
                 <Link href={`/roster/${assignment.studentSlug}/assignmentForm/${assignment.id}`} className="assignment-row-edit-btn">EDIT</Link>
-                <button onClick={handleDelete} className="assignment-row-delete-btn">DELETE</button>
+                <button onClick={() => setOpenDeleteDialog(true)} className="assignment-row-delete-btn">DELETE</button>
             </div>
+
+            <ReusableDialog
+                isOpen={openDeleteDialog}
+                onClose={() => setOpenDeleteDialog(false)}
+                title="DELETE ASSIGNMENT"
+                contentText={<span>Are you sure you want to delete this assignment? You <strong><em>will not</em></strong> be able to recover this assignment.</span>}
+                hasCheckbox={true}
+                checkboxText={<span>I understand this action is <strong>permanent.</strong></span>}
+                onConfirm={async () => {
+                    setOpenDeleteDialog(false);
+                    await handleDeleteConfirm();
+                }}
+                primaryButtonText="Delete"
+                secondaryButtonText="Cancel"
+            />
+
         </div>
     )
 }

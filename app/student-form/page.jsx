@@ -80,7 +80,16 @@ export default function StudentForm() {
     }
 
     return (
-        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>
+        (!authUser) ? 
+        (
+            <>
+                <NavBar />
+                <div className="overlay-blur"></div>
+                <div className='progress-div'>
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                </div>
+            </>
+        )
         :
         <>
             <NavBar />
@@ -217,6 +226,7 @@ export default function StudentForm() {
 
                     </fieldset>
                     <button type="submit" value="submit form" id="FORM-submit-btn">Add to Roster</button>
+                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
                 </form>
 
 

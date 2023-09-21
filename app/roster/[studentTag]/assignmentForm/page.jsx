@@ -60,7 +60,16 @@ export default function AssignmentPage() {
     console.log("this is the student you're working on inside of the AssignmentPage Route: ", studentSlug)
 
     return (
-        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }} /> 
+        (!authUser) ? 
+            // <div style={{ width: "100%", height: "50vh", display: "flex", justifyContent: "center", alignItems: "center", border: "2px solid orange" }}>
+            <>
+                <NavBar />
+                <div className="overlay-blur"></div>
+                <div className='progress-div'>
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+                </div>
+            </>
+            
         :
         <>
             <NavBar />
@@ -126,6 +135,8 @@ export default function AssignmentPage() {
                     </div>
                 </fieldset>
                 <button type='submit' value="submit form" id="FORM-submit-btn">Submit</button>
+                <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                
             </form>
         </div>
         </>

@@ -7,7 +7,6 @@ import { CircularProgress } from '@mui/material';
 import Link from 'next/link';
 import { getStudents } from '../../firebase/firestore';
 import StudentRow from '@/components/studentRow';
-import { toast } from 'react-toastify';
 
 export default function Roster() {
     const { authUser, isLoading } = useAuth();
@@ -18,7 +17,6 @@ export default function Roster() {
 
     useEffect(() => {
         if (!isLoading && !authUser) {
-            // toast.success("Successfully logged in!")
             router.push('/');
         }
     }, [authUser, isLoading, router]);
@@ -50,7 +48,17 @@ export default function Roster() {
     }, [authUser]);
 
     return (
-        (!authUser) ? <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft: "40%", marginTop: "25%" }} />
+        (!authUser) ? 
+        (
+            <>
+            <NavBar />
+            <div className="overlay-blur"></div>
+            <div className='progress-div'>
+                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+            </div>
+            </>
+            
+            )
             :
 
             <div className='roster-big-div'>
@@ -63,7 +71,11 @@ export default function Roster() {
                 </div>
 
                 {loadingStudents ?
-                    <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft: "40%", marginTop: "25%" }} />
+                    (
+                        <div className='progress-div'>
+                            <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+                        </div>
+                    )
                     :
                     students.length === 0 ?
                         <div id="no-student-div">

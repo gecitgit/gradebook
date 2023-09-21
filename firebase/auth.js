@@ -32,7 +32,7 @@ export default function useFirebaseAuth() {
 
     // const signOut = () => authSignOut(auth).then(clear);
     const signOut = () => {
-        confirm("Are you sure you want to sign out?") && authSignOut(auth).then(clear);
+        authSignOut(auth).then(clear);
     }
 
     useEffect(() => {

@@ -9,6 +9,7 @@ import { CircularProgress } from "@mui/material";
 import Image from "next/image";
 import { useRouter, usePathname } from 'next/navigation';
 import { getAssignments } from "../../../firebase/firestore";
+import InvalidURL from "@/components/invalidURL";
 
 export default function StudentPage() {
     const { authUser, isLoading } = useAuth();
@@ -21,6 +22,7 @@ export default function StudentPage() {
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState(false);
     const [assignments, setAssignments] = useState([]);
+    const [isFetchingAssignments, setIsFetchingAssignments] = useState(true);
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -52,7 +54,9 @@ export default function StudentPage() {
     useEffect(() => {
         const fetchAssignments = async () => {
             if (authUser && studentInfo && studentInfo.studentSlug) {
+                setIsFetchingAssignments(true);
                 setAssignments(await getAssignments(authUser.uid, studentInfo.studentSlug));
+                setIsFetchingAssignments(false);
             }
         };
         fetchAssignments();
@@ -61,11 +65,24 @@ export default function StudentPage() {
     console.log("this is your student now from the StudentPage Route: ", studentInfo);
     
     if (isFetching) {
-        return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>;
+        return (
+            <>
+            <NavBar />
+            <div className="overlay-blur"></div>
+            <div className='progress-div'>
+                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+            </div>
+            </>
+        )
     }
 
     if (error) {
-        return <p>Invalid url lmao</p>
+        return (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+                <NavBar />
+                <InvalidURL />
+            </div>
+        )
     }
 
     return (
@@ -73,7 +90,7 @@ export default function StudentPage() {
             <NavBar />
             <div className="studentpage-bigdiv">
                     <StudentCard studentInfo={studentInfo} assignments={assignments} />
-                    <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments}/>
+                    <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments} isLoading={isFetchingAssignments}/>
             </div>
         </>
     )

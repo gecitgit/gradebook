@@ -9,7 +9,6 @@ import { deleteStudentAssignments, getAssignments, getStudentInfo, updateAssignm
 import { updateStudentInfo } from '../../../../firebase/firestore';
 import slugify from 'slugify';
 import { getDownloadURL, deleteOldImage, uploadImage } from '../../../../firebase/storage';
-import { id } from 'date-fns/locale';
 
 const DEFAULT_FILE_NAME = "No file selected";
 
@@ -76,7 +75,16 @@ export default function EditStudent() {
     console.log("THIS IS THE LIST OF ASSIGNMENTS TO UPDATE: ", idsForAssignmentsToUpdate);
 
     if (isFetching) {
-        return <CircularProgress color="secondary" size="80px" thickness={4.5} sx={{ marginLeft:"40%", marginTop: "25%" }}/>
+        return (
+            <>
+            <NavBar />
+            <div className="overlay-blur"></div>
+            <div className='progress-div'>
+                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+            </div>
+            </>
+        )
+        
     }
 
     if (error) {
@@ -291,6 +299,7 @@ export default function EditStudent() {
                         </div>
                     </fieldset>
                     <button type="submit" value="submit form" id="FORM-submit-btn">UPDATE</button>
+                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
                 </form>
             </div>
         </>

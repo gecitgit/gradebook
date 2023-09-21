@@ -1,23 +1,44 @@
 "use client";
+import { useState } from "react";
 import { Button, Container, Typography, Box, Stack, AppBar } from "@mui/material";
 import { useAuth } from "../firebase/auth";
 import Link from "next/link";
+import ReusableDialog from "./reusableDialog";
 
 export default function NavBar() {
     const { authUser, signOut } = useAuth();
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
 
     console.log("this is the authUser that shows in navBBar: ", authUser)
     let greeting = "Hello, " + authUser?.email.split("@")[0] + "!";
 
+    const handleLogoutConfirm = () => {
+        signOut();
+    }
+
     return (
         <div className="navbar-box">
             <div className="navbar-left">
-                <Link href="/">Home</Link>
+                <Link href="/roster">Home</Link>
             </div>
             <div className="navbar-right">
-                <p>{greeting || "yerr"}</p>
-                <button id="navbarLogoutBtn" onClick={signOut}>LOGOUT</button>
+                <p>{greeting}</p>
+                <button className="navbarLogoutBtn" onClick={() => setOpenLogoutDialog(true)}>LOGOUT</button>
             </div>
+
+            <ReusableDialog
+                isOpen={openLogoutDialog}
+                onClose={() => setOpenLogoutDialog(false)}
+                title="LOGOUT"
+                contentText={<span>Are you sure you want to logout?</span>}
+                onConfirm={() => {
+                    setOpenLogoutDialog(false);
+                    handleLogoutConfirm();
+                }}
+                primaryButtonText="Logout"
+                secondaryButtonText="Cancel"
+            />
+
         </div>
     )
 }
