@@ -13,7 +13,7 @@ export default function StudentAssignmentCard(props) {
     if (isLoading) {
         return (
             <div className='progress-div'>
-                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+                <CircularProgress color="secondary" size="80px" thickness={4.5} />
             </div>
         );
     }
@@ -22,7 +22,7 @@ export default function StudentAssignmentCard(props) {
     return (
         <div className="assignment-card-main">
             <Link href={`/roster/${student.studentSlug}/assignmentForm`} id="add-assignment-btn">+ Add new assignment</Link>
-            { assignments.length === 0 ? 
+            {assignments.length === 0 ?
                 <div id="no-assignment-div">
                     <p>{student.studentFirstName} has no assignments yet.</p>
                 </div>

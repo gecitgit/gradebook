@@ -5,7 +5,7 @@ import NavBar from '@/components/navbar';
 import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { deleteStudentAssignments, getAssignments, getStudentInfo, updateAssignment } from '../../../../firebase/firestore';
+import { getAssignments, getStudentInfo, updateAssignment } from '../../../../firebase/firestore';
 import { updateStudentInfo } from '../../../../firebase/firestore';
 import slugify from 'slugify';
 import { getDownloadURL, deleteOldImage, uploadImage } from '../../../../firebase/storage';
@@ -77,14 +77,14 @@ export default function EditStudent() {
     if (isFetching) {
         return (
             <>
-            <NavBar />
-            <div className="overlay-blur"></div>
-            <div className='progress-div'>
-                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
-            </div>
+                <NavBar />
+                <div className="overlay-blur"></div>
+                <div className='progress-div'>
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                </div>
             </>
         )
-        
+
     }
 
     if (error) {
@@ -270,9 +270,9 @@ export default function EditStudent() {
                                 <input required type='text' name='allergies' id='allergies' value={studentData.allergies} onChange={handleChange} />
                             </div>
                         </div>
-                        </fieldset>
-                        <fieldset className='FORM-fieldset'>
-                            <legend>Emergency Contact Information</legend>
+                    </fieldset>
+                    <fieldset className='FORM-fieldset'>
+                        <legend>Emergency Contact Information</legend>
                         <div className='FORM-div'>
                             <div className='FORM-div-label'>
                                 <label htmlFor='emergencyContactName'>Name</label>

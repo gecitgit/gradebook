@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../../../firebase/auth';
 import NavBar from '@/components/navbar';
-import { CircularProgress, Alert } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { updateAssignment } from '../../../../../firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -29,7 +29,7 @@ export default function AssignmentPageUpdate() {
     const assignmentId = pathnameID.split("/")[4];
     console.log("this is the assignmentID: ", assignmentId);
     console.log("this is the assignment's slug: ", studentSlug);
-    
+
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -47,7 +47,7 @@ export default function AssignmentPageUpdate() {
                 setAssignmentFormData(assignment);
             } catch (error) {
                 setError(error);
-            } finally { 
+            } finally {
                 setIsFetching(false);
             }
         }
@@ -60,15 +60,15 @@ export default function AssignmentPageUpdate() {
         return (
             <>
                 <NavBar />
-                    <div className="overlay-blur"></div>
-                    <div className='progress-div'>
-                        <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
-                    </div>
+                <div className="overlay-blur"></div>
+                <div className='progress-div'>
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                </div>
             </>
         )
-    
+
     }
-    
+
     if (error) {
         return <p>error fetching student data</p>
     }
@@ -81,7 +81,7 @@ export default function AssignmentPageUpdate() {
                 ...prevState,
                 [name]: checked,
                 assignmentGrade: checked ? prevState.assignmentGrade : '',
-                assignmentComments: checked ? prevState.assignmentComments: ''
+                assignmentComments: checked ? prevState.assignmentComments : ''
             }));
         } else {
             setAssignmentFormData(prevState => ({
@@ -104,78 +104,78 @@ export default function AssignmentPageUpdate() {
             console.error("error updating assignment: ", error);
         }
     }
-    
-    
+
+
     return (
         <>
             <NavBar />
             <div>
 
-            <form onSubmit={handleSubmit} className='FORM-body'>
-                <fieldset className='FORM-fieldset'>
-                    <legend>Update the assignment</legend>
-                    <div className='FORM-div'>
-                        <div className='FORM-div-label'>
-                            <label htmlFor='assignmentClass'>Class</label>
-                        </div>
-                        <div className='FORM-div-input'>
-                        <input required type='text' name='assignmentClass' id='assignmentClass' value={assignmentFormData.assignmentClass || ''} onChange={handleChange}/>
-                        </div>
-                    </div>
-                    <div className='FORM-div'>
-                        <div className='FORM-div-label'>
-                            <label htmlFor="assignmentType">Type</label>
-                        </div>
-                        <div className='FORM-div-input'>
-
-                        <select required name='assignmentType' id='assignmentType' value={assignmentFormData.assignmentType} onChange={handleChange}>
-                            <option hidden value=''>Select Assignment type</option>
-                            <option value='Homework'>Homework</option>
-                            <option value='Quiz'>Quiz</option>
-                            <option value='Test'>Test</option>
-                            <option value='Project'>Project</option>
-                            <option value='Other'>Other</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div className='FORM-div'>
-                        <div className='FORM-div-label'>
-                        <label htmlFor="isSubmitted">Submitted?</label>
-                        </div>
-                        <div className='FORM-div-input'>
-                            <input type='checkbox' name='isSubmitted' id='isSubmitted' checked={assignmentFormData.isSubmitted} onChange={handleChange} />
-                        </div>
-                    </div>
-                    <div className='FORM-div'>
-                        <div className='FORM-div-label'>
-                            <label htmlFor="assignmentGrade">Grade</label>
-                        </div>
-                        <div className='FORM-div-input'>
-                        <input
-                            required={assignmentFormData.isSubmitted}
-                            type='text'
-                            name='assignmentGrade'
-                            id='assignmentGrade'
-                            value={assignmentFormData.assignmentGrade}
-                            onChange={handleChange}
-                            disabled={!assignmentFormData.isSubmitted}
-                            />
-                        </div>
-                    </div>
-                    <div className='FORM-div'>
-                        <div className='FORM-div-label'>
-                            <label htmlFor="assignmentComments">Comments</label>
-                        </div>
-                        <div className='FORM-div-input'>
-                        <input required type='text' name='assignmentComments' id='assignmentComments' value={assignmentFormData.assignmentComments} onChange={handleChange} disabled={!assignmentFormData.isSubmitted} />
-                        </div>
-                    </div>
-
-                </fieldset>
-                <button type='submit' value='submit form' id='FORM-submit-btn'>Update</button>
-                <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
-            </form>
+                <form onSubmit={handleSubmit} className='FORM-body'>
+                    <fieldset className='FORM-fieldset'>
+                        <legend>Update the assignment</legend>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor='assignmentClass'>Class</label>
                             </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='assignmentClass' id='assignmentClass' value={assignmentFormData.assignmentClass || ''} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor="assignmentType">Type</label>
+                            </div>
+                            <div className='FORM-div-input'>
+
+                                <select required name='assignmentType' id='assignmentType' value={assignmentFormData.assignmentType} onChange={handleChange}>
+                                    <option hidden value=''>Select Assignment type</option>
+                                    <option value='Homework'>Homework</option>
+                                    <option value='Quiz'>Quiz</option>
+                                    <option value='Test'>Test</option>
+                                    <option value='Project'>Project</option>
+                                    <option value='Other'>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor="isSubmitted">Submitted?</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input type='checkbox' name='isSubmitted' id='isSubmitted' checked={assignmentFormData.isSubmitted} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor="assignmentGrade">Grade</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input
+                                    required={assignmentFormData.isSubmitted}
+                                    type='text'
+                                    name='assignmentGrade'
+                                    id='assignmentGrade'
+                                    value={assignmentFormData.assignmentGrade}
+                                    onChange={handleChange}
+                                    disabled={!assignmentFormData.isSubmitted}
+                                />
+                            </div>
+                        </div>
+                        <div className='FORM-div'>
+                            <div className='FORM-div-label'>
+                                <label htmlFor="assignmentComments">Comments</label>
+                            </div>
+                            <div className='FORM-div-input'>
+                                <input required type='text' name='assignmentComments' id='assignmentComments' value={assignmentFormData.assignmentComments} onChange={handleChange} disabled={!assignmentFormData.isSubmitted} />
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <button type='submit' value='submit form' id='FORM-submit-btn'>Update</button>
+                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                </form>
+            </div>
         </>
     )
 }

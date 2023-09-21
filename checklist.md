@@ -52,10 +52,10 @@ Assignment Holder:
 New:
 <!-- -- Finalize the front page. Fonts and spacing look a bit off. -->
 <!-- -- consider adding a cancel/back button to edit student/assignment pages -->
--- CLEAN UP IMPORT STATEMENTS
+<!-- -- CLEAN UP IMPORT STATEMENTS -->
 <!-- -- ADD 404 PAGE  -->
 -- FIGURE OUT WHAT IS GOIGN ON WITH FIREBASE HOSTING -- GET RID OF IT??
 -- Clean up all console logs
--- Format each page
+<!-- -- Format each page -->
 -- r e a d m e 
--- SNACKBAR -- BUILT IN TOAST??? FUCK
+<!-- -- SNACKBAR -- BUILT IN TOAST??? FUCK  -------- we aint doing it--> 

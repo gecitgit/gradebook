@@ -1,10 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { Avatar, Button, CircularProgress, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { CircularProgress, Snackbar, Alert } from '@mui/material';
 import { useAuth } from '../../firebase/auth';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
-import { LocalizationProvider } from '@mui/lab';
 import NavBar from '@/components/navbar';
 import { uploadImage } from '../../firebase/storage';
 import { useRouter } from 'next/navigation';
@@ -80,34 +77,34 @@ export default function StudentForm() {
     }
 
     return (
-        (!authUser) ? 
-        (
+        (!authUser) ?
+            (
+                <>
+                    <NavBar />
+                    <div className="overlay-blur"></div>
+                    <div className='progress-div'>
+                        <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                    </div>
+                </>
+            )
+            :
             <>
                 <NavBar />
-                <div className="overlay-blur"></div>
-                <div className='progress-div'>
-                    <CircularProgress color="secondary" size="80px" thickness={4.5} />
-                </div>
-            </>
-        )
-        :
-        <>
-            <NavBar />
 
-            <div>
-                {/* //this holds the whole form */}
-                {/* <h1>New Student Form</h1> */}
-                <form onSubmit={handleSubmit} className='FORM-body'>
-                    <fieldset className="FORM-fieldset">
-                        <legend>New Student Form</legend>
-                        <div className='FORM-div'>
-                            <div className='FORM-div-label'>
-                                <label htmlFor="studentPicBackup">Student Photo</label>
+                <div>
+                    {/* //this holds the whole form */}
+                    {/* <h1>New Student Form</h1> */}
+                    <form onSubmit={handleSubmit} className='FORM-body'>
+                        <fieldset className="FORM-fieldset">
+                            <legend>New Student Form</legend>
+                            <div className='FORM-div'>
+                                <div className='FORM-div-label'>
+                                    <label htmlFor="studentPicBackup">Student Photo</label>
+                                </div>
+                                <div className='FORM-div-input'>
+                                    <input required type="file" name="studentPicBackup" id="studentPicBackup" onInput={(event) => { setFileData(event.target) }} />
+                                </div>
                             </div>
-                            <div className='FORM-div-input'>
-                                <input required type="file" name="studentPicBackup" id="studentPicBackup" onInput={(event) => { setFileData(event.target) }} />
-                            </div>
-                        </div>
                             <div className='FORM-div'>
                                 <div className='FORM-div-label'>
                                     <label htmlFor="studentFirstName">First Name</label>
@@ -160,11 +157,11 @@ export default function StudentForm() {
                             </div>
                             <div className='FORM-div'>
                                 <div className='FORM-div-label'>
-                                <label htmlFor="pronouns">Pronouns</label>
+                                    <label htmlFor="pronouns">Pronouns</label>
                                 </div>
                                 <div className='FORM-div-input'>
 
-                                <input required type='text' name='pronouns' id='pronouns' onChange={handleChange} value={formData.pronouns} />
+                                    <input required type='text' name='pronouns' id='pronouns' onChange={handleChange} value={formData.pronouns} />
                                 </div>
                             </div>
                             <div className='FORM-div'>
@@ -196,9 +193,9 @@ export default function StudentForm() {
                                     <input required type='text' name='allergies' id='allergies' onChange={handleChange} value={formData.allergies} />
                                 </div>
                             </div>
-                    </fieldset>
-                    <fieldset className="FORM-fieldset">
-                        <legend>Emergency Contact Information</legend>
+                        </fieldset>
+                        <fieldset className="FORM-fieldset">
+                            <legend>Emergency Contact Information</legend>
                             <div className='FORM-div'>
                                 <div className='FORM-div-label'>
                                     <label htmlFor="emergencyContactName">Name</label>
@@ -224,13 +221,13 @@ export default function StudentForm() {
                                 </div>
                             </div>
 
-                    </fieldset>
-                    <button type="submit" value="submit form" id="FORM-submit-btn">Add to Roster</button>
-                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
-                </form>
+                        </fieldset>
+                        <button type="submit" value="submit form" id="FORM-submit-btn">Add to Roster</button>
+                        <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                    </form>
 
 
-            </div>
-        </>
+                </div>
+            </>
     )
 }

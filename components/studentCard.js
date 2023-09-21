@@ -1,17 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from '../firebase/auth'
-import { deleteStudent } from "../firebase/firestore";
 import { useRouter } from 'next/navigation';
-
-import { deleteObject } from "firebase/storage";
-import { storage } from "../firebase/firebase";
-
-import { deleteStudentAssignments, deleteStudentRecord, deleteStudentAndAssignments, deleteStudentOnly, deleteAssignmentsOnly, deleteAssignment } from "../firebase/firestore";
+import { deleteStudentOnly, deleteAssignment } from "../firebase/firestore";
 import { deleteStudentImage } from "../firebase/storage";
-import { Dialog, Button, DialogTitle, DialogContent, DialogActions, DialogContentText, Checkbox, FormControlLabel } from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ReusableDialog from "./reusableDialog";
 
 export default function StudentCard(props) {
@@ -91,8 +84,8 @@ export default function StudentCard(props) {
                 primaryButtonText="Delete"
                 secondaryButtonText="Cancel"
             />
-            
-            
+
+
             <div className="studentcard-header">
                 <p id="studentcard-name">{student.studentFirstName} {student.studentLastName}</p>
                 <p id="studentcard-pronouns">{student.pronouns}</p>

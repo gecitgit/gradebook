@@ -48,16 +48,16 @@ export default function Roster() {
     }, [authUser]);
 
     return (
-        (!authUser) ? 
-        (
-            <>
-            <NavBar />
-            <div className="overlay-blur"></div>
-            <div className='progress-div'>
-                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
-            </div>
-            </>
-            
+        (!authUser) ?
+            (
+                <>
+                    <NavBar />
+                    <div className="overlay-blur"></div>
+                    <div className='progress-div'>
+                        <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                    </div>
+                </>
+
             )
             :
 
@@ -73,7 +73,7 @@ export default function Roster() {
                 {loadingStudents ?
                     (
                         <div className='progress-div'>
-                            <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
+                            <CircularProgress color="secondary" size="80px" thickness={4.5} />
                         </div>
                     )
                     :

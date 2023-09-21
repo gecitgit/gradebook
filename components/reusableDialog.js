@@ -34,13 +34,13 @@ export default function ReusableDialog(props) {
                         className="dialog-checkbox-label"
                         control={
                             <Checkbox
-                            checked={isChecked}
-                            onChange={(e) => setIsChecked(e.target.checked)}
-                            color="primary"
+                                checked={isChecked}
+                                onChange={(e) => setIsChecked(e.target.checked)}
+                                color="primary"
                             />
                         }
                         label={<span>{props.checkboxText}</span>}
-                        />}
+                    />}
                 </DialogContent>
                 <DialogActions className="dialog-actions">
                     <Button
@@ -49,7 +49,7 @@ export default function ReusableDialog(props) {
                         disabled={props.hasCheckbox && !isChecked}
                         color="secondary"
                         onClick={props.onClose}
-                        >
+                    >
                         {props.secondaryButtonText}
                     </Button>
                     <Button
@@ -60,7 +60,7 @@ export default function ReusableDialog(props) {
                             props.onClose();
                             await props.onConfirm();
                         }}
-                        >
+                    >
                         {props.primaryButtonText}
                     </Button>
                 </DialogActions>

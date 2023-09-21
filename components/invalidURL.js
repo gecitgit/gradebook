@@ -20,8 +20,8 @@ export default function InvalidURL() {
     return (
         <div className="container-404">
             <p className="header-404">404</p>
-            <Image 
-                src={lost} 
+            <Image
+                src={lost}
                 alt="404 image - person looking at a map"
                 loading="lazy"
                 width={0}
@@ -30,14 +30,14 @@ export default function InvalidURL() {
             />
             <p className="subtext-404">Oops! Took a wrong turn?<br /> <br /> No worries, just click below to head back.</p>
             <ThemeProvider theme={theme}>
-            <Button
-                variant="contained"
-                color="primary"
-                fontWeight="bold"
-                onClick={() => router.back()}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fontWeight="bold"
+                    onClick={() => router.back()}
                 >
-                go back
-            </Button>
+                    go back
+                </Button>
             </ThemeProvider>
         </div>
     )

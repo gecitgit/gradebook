@@ -1,12 +1,11 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "@/components/navbar";
 import StudentAssignmentCard from "@/components/studentAssignmentCard";
 import StudentCard from "@/components/studentCard";
 import { useAuth } from '../../../firebase/auth';
 import { getStudentInfo } from '../../../firebase/firestore';
 import { CircularProgress } from "@mui/material";
-import Image from "next/image";
 import { useRouter, usePathname } from 'next/navigation';
 import { getAssignments } from "../../../firebase/firestore";
 import InvalidURL from "@/components/invalidURL";
@@ -61,24 +60,24 @@ export default function StudentPage() {
         };
         fetchAssignments();
     }, [authUser, studentInfo]);
-    
+
     console.log("this is your student now from the StudentPage Route: ", studentInfo);
-    
+
     if (isFetching) {
         return (
             <>
-            <NavBar />
-            <div className="overlay-blur"></div>
-            <div className='progress-div'>
-                <CircularProgress color="secondary" size="80px" thickness={4.5} /> 
-            </div>
+                <NavBar />
+                <div className="overlay-blur"></div>
+                <div className='progress-div'>
+                    <CircularProgress color="secondary" size="80px" thickness={4.5} />
+                </div>
             </>
         )
     }
 
     if (error) {
         return (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <NavBar />
                 <InvalidURL />
             </div>
@@ -89,8 +88,8 @@ export default function StudentPage() {
         <>
             <NavBar />
             <div className="studentpage-bigdiv">
-                    <StudentCard studentInfo={studentInfo} assignments={assignments} />
-                    <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments} isLoading={isFetchingAssignments}/>
+                <StudentCard studentInfo={studentInfo} assignments={assignments} />
+                <StudentAssignmentCard studentInfo={studentInfo} assignments={assignments} isLoading={isFetchingAssignments} />
             </div>
         </>
     )

@@ -14,7 +14,7 @@ export default function StudentRow(props) {
     return (
         <div className="student-row-box">
             <div className="student-row-picture-box">
-                <Image 
+                <Image
                     alt="student image"
                     src={student.imageUrl}
                     loading="lazy"
@@ -26,14 +26,14 @@ export default function StudentRow(props) {
                 />
             </div>
             <div className="student-row-text-box">
-                { isDuplicated && <p className="dupe-student-box-alert">this student is duplicated</p>}
+                {isDuplicated && <p className="dupe-student-box-alert">this student is duplicated</p>}
                 <p id="student-row-name">{student.studentFirstName} {student.studentLastName}</p>
                 <p id="student-row-pronouns">{student.pronouns}</p>
                 <p className="student-row-other">Grade: {student.gradeLevel} </p>
                 <p className="student-row-other">Standing: {student.academicStanding} </p>
-            <Link className="student-row-view-btn" href={`/roster/${props.student.studentSlug}`}>
-                view student
-            </Link>
+                <Link className="student-row-view-btn" href={`/roster/${props.student.studentSlug}`}>
+                    view student
+                </Link>
             </div>
         </div>
     )

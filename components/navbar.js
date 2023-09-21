@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Button, Container, Typography, Box, Stack, AppBar } from "@mui/material";
 import { useAuth } from "../firebase/auth";
 import Link from "next/link";
 import ReusableDialog from "./reusableDialog";
