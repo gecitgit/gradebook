@@ -46,22 +46,17 @@ export default function AssignmentPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("submitting assignment form from AssignmentPage Route: ", assignmentFormData);
-        console.log("this is the user from AssignmentPage Route: ", authUser.uid)
-        console.log("this is student slug from AssignmentPage Route: ", studentSlug)
         try {
             await addAssignment(authUser.uid, assignmentFormData.assignmentClass, assignmentFormData.assignmentType, assignmentFormData.isSubmitted, assignmentFormData.assignmentGrade, assignmentFormData.assignmentComments, studentSlug);
             router.push(`/roster/${studentSlug}`);
         } catch (error) {
+            alert('error adding assignment');
             console.error('error adding assignment: ', error);
         }
     }
 
-    console.log("this is the student you're working on inside of the AssignmentPage Route: ", studentSlug)
-
     return (
         (!authUser) ?
-            // <div style={{ width: "100%", height: "50vh", display: "flex", justifyContent: "center", alignItems: "center", border: "2px solid orange" }}>
             <>
                 <NavBar />
                 <div className="overlay-blur"></div>
@@ -135,9 +130,10 @@ export default function AssignmentPage() {
                             </div>
                         </fieldset>
                         <button type='submit' value="submit form" id="FORM-submit-btn">Submit</button>
-                        <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
-
                     </form>
+                    <div style={{display:'flex', justifyContent:'center', margin: '0'}}>
+                        <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                    </div>
                 </div>
             </>
     );

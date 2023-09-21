@@ -30,7 +30,6 @@ export default function useFirebaseAuth() {
         setIsLoading(false);
     }
 
-    // const signOut = () => authSignOut(auth).then(clear);
     const signOut = () => {
         authSignOut(auth).then(clear);
     }

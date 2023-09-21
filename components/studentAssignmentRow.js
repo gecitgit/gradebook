@@ -5,15 +5,14 @@ import ReusableDialog from "./reusableDialog";
 
 export default function StudentAssignmentRow(props) {
     const assignment = props.assignmentInfo;
-    console.log("this is the assginment inside of the assignment row: ", assignment)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const handleDeleteConfirm = async () => {
         try {
             await deleteAssignment(assignment.id);
-            console.log("deleted successfully");
             location.reload();
         } catch (error) {
+            alert("error deleting the assignment");
             console.error("error deleting the assignment: ", error);
         }
     }

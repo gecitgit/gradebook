@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { CircularProgress, Snackbar, Alert } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../firebase/auth';
 import NavBar from '@/components/navbar';
 import { uploadImage } from '../../firebase/storage';
@@ -44,7 +44,6 @@ export default function StudentForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("this is formdata: ", formData);
 
         const firstNameSlug = slugify(formData.studentFirstName, {
             lower: true,
@@ -56,8 +55,6 @@ export default function StudentForm() {
         });
         const birthdaySlug = formData.birthday.replace(/-/g, '');
         const studentSlug = `${firstNameSlug}-${lastNameSlug}-${birthdaySlug}`;
-
-        console.log("THIS IS THE STUDENT SLUG INSIDE OF THE HANDLE SUBMIT: ", studentSlug)
 
         try {
             const bucket = await uploadImage(formData.file, authUser.uid);
@@ -92,8 +89,6 @@ export default function StudentForm() {
                 <NavBar />
 
                 <div>
-                    {/* //this holds the whole form */}
-                    {/* <h1>New Student Form</h1> */}
                     <form onSubmit={handleSubmit} className='FORM-body'>
                         <fieldset className="FORM-fieldset">
                             <legend>New Student Form</legend>
@@ -223,9 +218,10 @@ export default function StudentForm() {
 
                         </fieldset>
                         <button type="submit" value="submit form" id="FORM-submit-btn">Add to Roster</button>
-                        <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
                     </form>
-
+                    <div style={{display:'flex', justifyContent:'center', margin: '0'}}>
+                        <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                    </div>
 
                 </div>
             </>

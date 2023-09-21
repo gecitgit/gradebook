@@ -17,8 +17,6 @@ export default function EditStudent() {
     const router = useRouter();
     const pathname = usePathname();
     const studentSlug = pathname.split("/")[2];
-    console.log("this is the student slug inside of editstudent: ", studentSlug);
-    // console.log("this is teh uid: ", authUser.uid);
 
     const [error, setError] = useState(false);
     const [isFetching, setIsFetching] = useState(true);
@@ -38,7 +36,6 @@ export default function EditStudent() {
         }
     }, [authUser, isLoading, router]);
 
-    //this is going to be the useeffect to grab the student data from firestore
     useEffect(() => {
         if (!authUser) return;
 
@@ -47,7 +44,6 @@ export default function EditStudent() {
         const fetchStudentInfo = async () => {
             try {
                 const student = await getStudentInfo(userUID, studentSlug);
-                console.log("this is the student info: ", student);
                 setStudentData(student);
             } catch (error) {
                 setError(error);
@@ -68,11 +64,7 @@ export default function EditStudent() {
         fetchAssignments();
     }, [authUser, studentData]);
 
-    console.log("this is the student data on edit student page: ", studentData);
-    console.log("this is the assignments on edit student page: ", assignments);
-
     const idsForAssignmentsToUpdate = assignments.map((assignment) => assignment.id);
-    console.log("THIS IS THE LIST OF ASSIGNMENTS TO UPDATE: ", idsForAssignmentsToUpdate);
 
     if (isFetching) {
         return (
@@ -121,14 +113,11 @@ export default function EditStudent() {
         });
         const birthdaySlug = studentData.birthday.replace(/-/g, '');
         const updatedStudentSlug = `${firstNameSlug}-${lastNameSlug}-${birthdaySlug}`;
-        console.log("this is the updated student slug: ", updatedStudentSlug);
 
-        console.log("this is student data after new slug is made: ", studentData);
         const updatedData = {
             ...studentData,
             studentSlug: updatedStudentSlug
         };
-        console.log("this is updated data after new slug is made: ", updatedData);
 
         const studentUID = studentData.studentUID;
 
@@ -140,11 +129,8 @@ export default function EditStudent() {
             updatedData.imageBucket = newImageBucket;
             updatedData.imageUrl = newImageUrl;
         }
-        console.log("THIS IS THE UPDATED DATA BEING SUBMITTED: ", updatedData)
         try {
-            await updateStudentInfo(studentUID, updatedData, oldSlug);
-            // console.log("student info updated successfully!");
-            console.log("this is our authUser: ", authUser.uid);
+            await updateStudentInfo(studentUID, updatedData);
 
             if (idsForAssignmentsToUpdate.length > 0) {
                 let updatedAssignments = assignments.map(assignment => {
@@ -155,13 +141,12 @@ export default function EditStudent() {
                 });
 
                 for (let assignment of updatedAssignments) {
-                    console.log("this is the assignment thats been updated: ", assignment);
-                    console.log("this is the updated assignment id: ", assignment.id);
                     await updateAssignment(assignment.id, assignment);
                 }
             }
             router.push(`/roster/${updatedStudentSlug}`);
         } catch (error) {
+            alert("error updating student info");
             console.error("error updating student info: ", error);
         }
     }
@@ -299,8 +284,10 @@ export default function EditStudent() {
                         </div>
                     </fieldset>
                     <button type="submit" value="submit form" id="FORM-submit-btn">UPDATE</button>
-                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
                 </form>
+                <div style={{display:'flex', justifyContent:'center', margin: '0'}}>
+                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                </div>
             </div>
         </>
     )

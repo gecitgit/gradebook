@@ -7,8 +7,6 @@ import ReusableDialog from "./reusableDialog";
 export default function NavBar() {
     const { authUser, signOut } = useAuth();
     const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
-
-    console.log("this is the authUser that shows in navBBar: ", authUser)
     let greeting = "Hello, " + authUser?.email.split("@")[0] + "!";
 
     const handleLogoutConfirm = () => {

@@ -41,6 +41,7 @@ export default function StudentPage() {
                     }
                     setIsFetching(false);
                 } catch (error) {
+                    alert('error fetching student data');
                     console.error('error fetching student data: ', error);
                     setError(true);
                     setIsFetching(false);
@@ -60,8 +61,6 @@ export default function StudentPage() {
         };
         fetchAssignments();
     }, [authUser, studentInfo]);
-
-    console.log("this is your student now from the StudentPage Route: ", studentInfo);
 
     if (isFetching) {
         return (

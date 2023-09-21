@@ -6,9 +6,6 @@ export default function StudentAssignmentCard(props) {
     const student = props.studentInfo;
     const assignments = props.assignments
     const isLoading = props.isLoading
-    // console.log("props inside of student assignment card: ", props)
-    console.log("this is student inside of studentAssignmentCard Component: ", student);
-    console.log("this is assignments inside of studentAssignmentCard Component: ", assignments);
 
     if (isLoading) {
         return (

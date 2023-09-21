@@ -2,14 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function StudentRow(props) {
-    console.log("props inside of studentRow: ", props);
     const student = props.student;
     const isDuplicated = props.isDuplicated;
-    console.log("this is the student inside of /studentRow: ", student);
-
-    const handleProfileClick = () => {
-        console.log("their slug is: ", props.slug);
-    }
 
     return (
         <div className="student-row-box">

@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { updateAssignment } from '../../../../../firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { getSpecificAssignment } from '../../../../../firebase/firestore';
+import InvalidURL from '@/components/invalidURL';
 
 export default function AssignmentPageUpdate() {
     const { authUser, isLoading } = useAuth();
@@ -27,9 +28,6 @@ export default function AssignmentPageUpdate() {
     const pathnameID = usePathname();
     const studentSlug = pathnameID.split("/")[2];
     const assignmentId = pathnameID.split("/")[4];
-    console.log("this is the assignmentID: ", assignmentId);
-    console.log("this is the assignment's slug: ", studentSlug);
-
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -54,8 +52,6 @@ export default function AssignmentPageUpdate() {
         fetchAssignment();
     }, [authUser, assignmentId]);
 
-    console.log("this is the assignemntdata inside of AssignmentPageUpdate Route: ", assignmentData);
-
     if (isFetching) {
         return (
             <>
@@ -70,7 +66,12 @@ export default function AssignmentPageUpdate() {
     }
 
     if (error) {
-        return <p>error fetching student data</p>
+        return (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <NavBar />
+                <InvalidURL />
+            </div>
+        )
     }
 
     const handleChange = (e) => {
@@ -93,11 +94,9 @@ export default function AssignmentPageUpdate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("form submitted wit these values from the AssignmentPageUpdate Route: ", assignmentFormData);
 
         try {
             await updateAssignment(assignmentId, assignmentFormData);
-            console.log("assignment updated successfully from the AssignmentPageUpdate Route!");
             router.push(`/roster/${studentSlug}`);
         } catch (error) {
             alert("error updating assignment")
@@ -173,8 +172,10 @@ export default function AssignmentPageUpdate() {
 
                     </fieldset>
                     <button type='submit' value='submit form' id='FORM-submit-btn'>Update</button>
-                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
                 </form>
+                <div style={{display:'flex', justifyContent:'center', margin: '0'}}>
+                    <button className="FORM-cancel-btn" onClick={() => router.back()}>Cancel</button>
+                </div>
             </div>
         </>
     )

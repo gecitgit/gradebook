@@ -78,7 +78,6 @@ button, a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
 }
 
 .overlay-blur {
@@ -356,17 +355,8 @@ button, a {
   border-radius: 8px;
   font-size: 0.8rem;
 }
-
-
-
 /* END STYLING FOR 'studentRow' */
 /* ---------------------------- */
-
-
-
-
-
-
 
 
 
@@ -377,7 +367,7 @@ button, a {
   flex-direction: column;
   align-items: center;
   background-color: #d8b4e2;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .FORM-fieldset{
@@ -458,7 +448,6 @@ button, a {
   background-color: #ae759f;
   cursor: pointer;
 }
-
 /* END STYLING FOR 'STUDENT AND ASSIGNMENT FORMS' */
 /* ---------------------------------------------- */
 
@@ -576,6 +565,7 @@ button, a {
 /* END STYLING FOR 'Student page + studentcard' */
 /* -------------------------------------------- */
 
+
 /* -------------------------------------------------- */
 /* BEGIN STYLING FOR 'assignmentCard + assignmentRow' */
 .assignment-card-main {
@@ -682,11 +672,8 @@ button, a {
   padding: 10px 20px 10px 20px;
   text-align: center;
 }
-
 /* END STYLING FOR 'assignmentCard + assignmentRow' */
 /* ----------------------------------------------- */
-
-
 
 
 
@@ -708,11 +695,9 @@ button, a {
 /* --------------------------------- */
 
 
+
 /* --------------------------------- */
 /* BEGIN STYLING FOR 'CUSTOM DIALOG' */
-/* .dialog-box{
-  border: 4px solid lime;
-} */
 .dialog-title{
   background-color: #210b2c;
   font-weight: bolder;
@@ -736,6 +721,5 @@ button, a {
 .dialog-checkbox-label{
   padding-top: 5px;
 }
-
 /* END STYLING FOR 'CUSTOM DIALOG' */
 /* ------------------------------- */
